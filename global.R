@@ -12,3 +12,7 @@ ebi_url = paste0(
     "tax_division,",
     "scientific_name"
 )
+
+greece_cities = maps::world.cities
+greece_cities = greece_cities[which(greece_cities$country.etc == "Greece"), ]
+greece_cities = greece_cities |> setDT()

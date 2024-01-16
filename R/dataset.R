@@ -38,6 +38,24 @@ correct_coordinates <- function(string) {
     
 }
 
+correct_location <- function(string) {
+    
+    dict = string |> 
+        str_split("\\,|\\ |-|[0-9]|\\(|\\)|\\'|\\.|&|>|<|\\/|=") |> 
+        unlist() |>
+        unique() |>
+        str_squish() |>
+        sort()
+    
+    out = data.table(
+        "loc1" = string |> str_split_i("\\,", 1) |> str_squish(),
+        "loc2" = string |> str_split_i("\\,", 2) |> str_squish()
+    )
+    
+    out = out |> unique()
+    
+}
+
 retrieve_ebi_data <- function(string) {
     
     if( !RCurl::url.exists(string) ) stop(c("url ", string, " not accessible!"))
@@ -47,11 +65,100 @@ retrieve_ebi_data <- function(string) {
     # correct scientific name
     df$scientific_name = df$scientific_name |> str_to_title()
     
-    # correct location coordinates
-    df = cbind(df, correct_coordinates(df$location))
     
-    # update location coordinates
+    df$region = df$country |>
+        str_split("\\:") |>
+        lapply(function(a) ifelse(length(a) > 1, a[2], a[1]) ) |>
+        lapply(str_squish) |>
+        unlist()
     
+    df$country = df$country |> str_split_i("\\:", 1)
+    
+    df[which(country == "Greece Greece")]$country = "Greece"
+    
+    df$subregion = df$region |>
+        str_split("\\,") |>
+        lapply(function(a) ifelse(length(a) > 1, a[2], a[1]) ) |>
+        lapply(str_squish) |>
+        unlist()
+    
+    df$region = df$region |> str_split_i("\\,", 1)
+    
+    
+    df$lat = df$location |>
+        str_split_i("N", 1) |>
+        str_squish() |>
+        as.numeric()
+    
+    df$lon = df$location |>
+        str_split_i("N", 2) |>
+        str_remove_all("E") |>
+        str_squish() |>
+        as.numeric()
+    
+    # part 2 --------------------------
+    
+    a = df[which( !is.na(lat) & !is.na(lon) )]
+    b = df[which( is.na(lat) | is.na(lon) )]
+    
+    
+    index = match(b$subregion, greece_cities$name)
+    
+    b$lat = greece_cities[index]$lat
+    b$lon = greece_cities[index]$long
+    
+    
+    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+    b = b[which(is.na(lat) | is.na(lon))]
+    
+    
+    index = match(b$region, greece_cities$name)
+    
+    b$lat = greece_cities[index]$lat
+    b$lon = greece_cities[index]$long
+    
+    
+    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+    b = b[which(is.na(lat) | is.na(lon))]
+    
+    
+    for(i in seq_len(nrow(greece_cities))) {
+        
+        index = which(str_detect(b$subregion, greece_cities[i]$name))
+        
+        b[index]$lat = greece_cities[i]$lat
+        b[index]$lon = greece_cities[i]$long
+        
+    }
+    
+    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+    b = b[which(is.na(lat) | is.na(lon))]
+    
+    for(i in seq_len(nrow(greece_cities))) {
+        
+        index = which(str_detect(b$region, greece_cities[i]$name))
+        
+        b[index]$lat = greece_cities[i]$lat
+        b[index]$lon = greece_cities[i]$long
+        
+    }
+    
+    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+    b = b[which(is.na(lat) | is.na(lon))]
+    
+    b[which(str_detect(region, "Crete"))]$lat = 35.05
+    b[which(str_detect(region, "Crete"))]$lon = 25.41
+    
+    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+    b = b[which(is.na(lat) | is.na(lon))]
+    
+    # tmp = b$region |> table() |> as.data.frame() |> setDT()
+    # 
+    # tmp = tmp[order(-Freq)]
+    # 
+    # rm(tmp, ann, i, index)
+    
+    df = rbind(a, b)
     
 }
 
