@@ -1,54 +1,54 @@
 
 
 library(shiny)
-library(extrafont)
+library(bslib)
+# library(extrafont)
 
 source("R/histogram.R")
 source("R/dataset.R")
 source("R/selectVar.R")
 
-base_font = "Jost"
-heading_font = "Jost"
+# base_font = "Jost"
+# heading_font = "Jost"
 
-ui <- fluidPage(
+ui <- page_sidebar(
     
-    titlePanel("Molecular Biodiversity Greece"),
+    # titlePanel("Molecular Biodiversity Greece"),
+    title = "Molecular Biodiversity Greece",
+    window_title = "MBioG",
     
-    fluidRow(
-        column(3, 
-            wellPanel(
-                datasetInput("data", is.data.frame),
-                selectVarInput("var"),
-            )
-        ),
-        
-        column(9, 
-            tabsetPanel(
-                tabPanel("Table", histogramOutput("hist"))
-            )
-        )
+    sidebar = sidebar(
+        datasetInput("data", is.data.frame),
+        selectVarInput("var")
+    ),
+    
+    navset_underline(
+        nav_panel(title = "Table", histogramOutput("hist")),
+        nav_panel(title = "Map", p("Third tab content"))
+    ),
+    
+    theme = bs_theme(
+        preset = "cosmo",
+        base_font = font_google("Jost")
     )
     
-    # sidebarLayout(
-    #     
-    #     # side bar panel -------------
-    #     sidebarPanel(
-    #         datasetInput("data", is.data.frame),
-    #         selectVarInput("var"),
+    # fluidRow(
+    #     column(3, 
+    #         
     #     ),
     #     
-    #     # main panel --------------------
-    #     mainPanel(
-    #         histogramOutput("hist")    
+    #     column(9, 
+    #         
     #     )
-    #     
     # ),
     
-    # theme ------------------
-    # theme = bslib::bs_theme(
-    #     base_font = base_font, 
-    #     heading_font = heading_font
-    # )
+    # thematic::thematic_on(
+    #     bg = "auto", 
+    #     fg = "auto", 
+    #     accent = "auto", 
+    #     font = "auto"
+    # ),
+    
 )
 
 server <- function(input, output, session) {

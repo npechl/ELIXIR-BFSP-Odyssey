@@ -1,6 +1,8 @@
 
 
 library(shiny)
+library(data.table)
+library(stringr)
 
 #' @export
 datasetInput <- function(id, filter = NULL) {
@@ -20,6 +22,37 @@ datasetServer <- function(id) {
     moduleServer(id, function(input, output, session) {
         reactive(get(input$dataset, "package:datasets"))
     })
+}
+
+correct_coordinates <- function(string) {
+    
+    coordinates_df = string |> 
+        str_remove_all("[A-Z]") |>
+        str_squish() |>
+        str_split("\\ ", simplify = TRUE) |>
+        as.data.table()
+    
+    colnames(coordinates_df) = c("long", "lat")
+    
+    return(coordinates_df)
+    
+}
+
+retrieve_ebi_data <- function(string) {
+    
+    if( !RCurl::url.exists(string) ) stop(c("url ", string, " not accessible!"))
+    
+    df = string |> fread(verbose = FALSE)
+    
+    # correct scientific name
+    df$scientific_name = df$scientific_name |> str_to_title()
+    
+    # correct location coordinates
+    df = cbind(df, correct_coordinates(df$location))
+    
+    # update location coordinates
+    
+    
 }
 
 
