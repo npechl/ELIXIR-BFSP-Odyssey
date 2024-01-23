@@ -2,7 +2,6 @@
 
 library(shiny)
 library(bslib)
-# library(extrafont)
 
 source("R/histogram.R")
 source("R/dataset.R")
