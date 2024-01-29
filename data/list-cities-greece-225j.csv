@@ -1,0 +1,149 @@
+SNo,City,Census 1991,Census 2001,Census 2011,Rank,Region
+1,Athens,"7,72,072","7,45,514","6,64,046",1,Attica
+2,Thessaloniki,"3,83,967","3,63,987","3,15,196",2,Central Macedonia
+3,Patras,"1,52,570","1,60,400","1,68,034",3,West Greece
+4,Piraeus,"1,82,671","1,75,697","1,63,688",4,Attica
+5,Larissa,"1,12,777","1,24,394","1,44,651",5,Thessaly
+6,Heraklion,"1,15,270","1,30,914","1,40,730",6,Crete
+7,Peristeri,"1,37,288","1,37,918","1,39,981",7,Attica
+8,Kallithea,"1,14,233","1,09,609","1,00,641",8,Attica
+9,Acharnes,"61,052","75,329","99,346",9,Attica
+10,Kalamaria,"80,698","87,255","91,279",10,Central Macedonia
+11,Nikaia,"87,597","93,086","89,380",11,Attica
+12,Glyfada,"63,306","80,409","87,305",12,Attica
+13,Volos,"77,192","82,439","86,046",13,Thessaly
+14,Ilio,"78,326","80,859","84,793",14,Attica
+15,Ilioupoli,"75,037","75,904","78,153",15,Attica
+16,Keratsini,"71,982","76,102","77,077",16,Attica
+17,Evosmos,"28,821","52,624","74,686",17,Central Macedonia
+18,Chalandri,"66,285","71,684","74,192",18,Attica
+19,Nea Smyrni,"69,749","73,986","73,076",19,Attica
+20,Marousi,"64,092","69,470","72,333",20,Attica
+21,Agios Dimitrios,"57,574","65,173","71,294",21,Attica
+22,Zografou,"80,492","76,115","71,026",22,Attica
+23,Egaleo,"78,563","74,046","69,946",23,Attica
+24,Nea Ionia,"60,635","66,017","67,134",24,Attica
+25,Ioannina,"56,699","61,629","65,574",25,Epirus
+26,Palaio Faliro,"61,371","64,759","64,021",26,Attica
+27,Korydallos,"63,184","67,456","63,445",27,Attica
+28,Trikala,"45,835","48,686","61,653",28,Thessaly
+29,Vyronas,"58,523","61,102","61,308",29,Attica
+30,Agia Paraskevi,"47,463","56,836","59,704",30,Attica
+31,Galatsi,"57,230","58,042","59,345",31,Attica
+32,Chalcis,"51,646","53,584","59,125",32,Central Greece
+33,Petroupoli,"38,278","48,327","58,979",33,Attica
+34,Serres,"50,017","54,266","58,287",34,Central Macedonia
+35,Alexandroupoli,"37,904","48,885","57,812",35,East Macedonia and Thrace
+36,Xanthi,"37,430","45,111","56,122",36,East Macedonia and Thrace
+37,Katerini,"43,613","50,510","55,997",37,Central Macedonia
+38,Kalamata,"43,625","49,154","54,100",38,Peloponnese
+39,Kavala,"56,571","58,663","54,027",39,East Macedonia and Thrace
+40,Chania,"50,077","53,373","53,910",40,Crete
+41,Lamia,"44,084","46,406","52,006",41,Central Greece
+42,Komotini,"37,036","43,326","50,990",42,East Macedonia and Thrace
+43,Irakleio,"42,905","45,926","49,642",43,Attica
+44,Rhodes,"42,400","52,318","49,541",44,South Aegean
+45,Kifissia,"39,166","43,929","47,332",45,Attica
+46,Agrinio,"39,368","42,390","46,899",46,West Greece
+47,Stavroupoli,"37,596","41,653","46,008",47,Central Macedonia
+48,Chaidari,"44,831","45,227","45,642",48,Attica
+49,Drama,"37,604","42,501","44,823",49,East Macedonia and Thrace
+50,Veria,"37,858","42,794","43,158",50,Central Macedonia
+51,Alimos,"32,024","38,047","41,720",51,Attica
+52,Kozani,"31,553","35,242","41,066",52,West Macedonia
+53,Polichni,"27,894","36,146","39,332",53,Central Macedonia
+54,Karditsa,"30,067","32,031","38,554",54,Thessaly
+55,Sykies,"34,059","41,726","37,753",55,Central Macedonia
+56,Ampelokipoi,"40,093","40,959","37,381",56,Central Macedonia
+57,Pylaia,"20,785","22,744","34,625",57,Central Macedonia
+58,Agioi Anargyroi,"30,739","32,957","34,168",58,Attica
+59,Argyroupoli,"31,530","33,158","34,097",59,Attica
+60,Ano Liosia,"21,397","26,423","33,565",60,Attica
+61,Nea Ionia,"27,904","30,804","32,661",61,Thessaly
+62,Rethymno,"23,420","27,868","32,468",62,Crete
+63,Ptolemaida,"25,125","28,679","32,127",63,West Macedonia
+64,Tripoli,"22,429","25,520","30,866",64,Peloponnese
+65,Cholargos,"33,691","32,166","30,840",65,Attica
+66,Vrilissia,"16,571","25,582","30,741",66,Attica
+67,Aspropyrgos,"15,715","27,741","30,251",67,Attica
+68,Corinth,"27,412","29,787","30,176",68,Peloponnese
+69,Gerakas,"8,512","13,921","29,939",69,Attica
+70,Metamorfosi,"21,052","26,448","29,891",70,Attica
+71,Giannitsa,"22,504","26,296","29,789",71,Central Macedonia
+72,Voula,"17,998","25,532","28,364",72,Attica
+73,Kamatero,"17,410","22,234","28,361",73,Attica
+74,Mytilene,"23,971","27,247","27,871",74,North Aegean
+75,Neapoli,"30,568","29,995","27,084",75,Central Macedonia
+76,Eleftherio-Kordelio,"16,549","21,630","27,067",76,Central Macedonia
+77,Chios,"22,894","23,779","26,850",77,North Aegean
+78,Agia Varvara,"28,706","30,562","26,550",78,Attica
+79,Kaisariani,"26,701","26,323","26,370",79,Attica
+80,Nea Filadelfeia,"25,261","24,112","25,734",80,Attica
+81,Moschato,"22,039","23,153","25,441",81,Attica
+82,Perama,"24,119","25,720","25,389",82,Attica
+83,Salamis,"22,567","25,730","25,370",83,Attica
+84,Eleusina,"22,793","25,863","24,910",84,Attica
+85,Corfu,"31,359","28,185","24,838",85,Ionian Islands
+86,Pyrgos,"28,465","23,274","24,359",86,West Greece
+87,Megara,"20,403","23,032","23,456",87,Attica
+88,Kilkis,"12,139","17,430","22,914",88,Central Macedonia
+89,Dafni,"24,152","23,674","22,913",89,Attica
+90,Thebes,"19,505","21,211","22,883",90,Central Greece
+91,Melissia,"13,469","19,526","22,741",91,Attica
+92,Argos,"21,901","24,239","22,209",92,Peloponnese
+93,Arta,"19,087","19,435","21,895",93,Epirus
+94,Artemis,"9,485","17,391","21,488",94,Attica
+95,Livadeia,"18,437","20,061","21,379",95,Central Greece
+96,Pefki,"17,987","19,887","21,352",96,Attica
+97,Oraiokastro,"5,458","11,896","20,852",97,Central Macedonia
+98,Aigio,"22,178","21,061","20,422",98,West Greece
+99,Kos,"14,714","17,890","19,432",99,South Aegean
+100,Koropi,"12,790","15,860","19,164",100,Attica
+101,Preveza,"13,695","16,321","19,042",101,Epirus
+102,Naousa,"19,794","19,870","18,882",102,Central Macedonia
+103,Orestiada,"12,691","15,246","18,426",103,East Macedonia and Thrace
+104,Peraia,"2,949","13,306","18,326",104,Central Macedonia
+105,Edessa,"17,128","18,253","18,229",105,Central Macedonia
+106,Florina,"12,355","14,279","17,686",106,West Macedonia
+107,Panorama,"10,275","14,552","17,444",107,Central Macedonia
+108,Nea Erythraia,"12,993","15,439","17,379",108,Attica
+109,Ellinikon,"13,517","16,740","17,259",109,Attica
+110,Amaliada,"15,232","18,261","16,763",110,West Greece
+111,Pallini,"8,021","12,552","16,415",111,Attica
+112,Sparta,"13,011","14,817","16,239",112,Peloponnese
+113,Agios Ioannis Rentis,"14,218","15,060","16,050",113,Attica
+114,Thermi,"5,156","11,360","16,004",114,Central Macedonia
+115,Vari,"8,488","10,998","15,855",115,Attica
+116,Nea Makri,"12,120","13,986","15,554",116,Attica
+117,Tavros,"15,456","14,963","14,972",117,Attica
+118,Alexandreia,"12,109","13,229","14,821",118,Central Macedonia
+119,Menemeni,"12,932","14,910","14,746",119,Central Macedonia
+120,Paiania,"9,710","12,855","14,595",120,Attica
+121,Kalyvia Thorikou,"8,488","12,202","14,424",121,Attica
+122,Nafplio,"11,897","13,822","14,203",122,Peloponnese
+123,Drapetsona,"13,094","12,944","13,968",123,Attica
+124,Efkarpia,"3,480","6,598","13,905",124,Central Macedonia
+125,Papagou,"13,974","13,207","13,699",125,Attica
+126,Nafpaktos,"10,854","12,924","13,415",126,West Greece
+127,Kastoria,"14,775","14,813","13,387",127,West Macedonia
+128,Grevena,"9,345","10,177","13,137",128,West Macedonia
+129,Pefka,"2,288","6,434","13,052",129,Central Macedonia
+130,Nea Alikarnassos,"10,683","11,551","12,925",130,Crete
+131,Missolonghi,"10,916","12,225","12,785",131,West Greece
+132,Gazi,"1,395","8,018","12,606",132,Crete
+133,Ierapetra,"9,541","11,678","12,355",133,Crete
+134,Kalymnos,"10,543","10,149","12,324",134,South Aegean
+135,Rafina,"7,752","11,352","12,168",135,Attica
+136,Loutraki,"9,388","11,383","11,564",136,Peloponnese
+137,Agios Nikolaos,"8,093","10,080","11,421",137,Crete
+138,Ermoupoli,"13,030","11,799","11,407",138,South Aegean
+139,Ialysos,"7,193","10,107","11,331",139,South Aegean
+140,Mandra,"10,012","10,947","11,327",140,Attica
+141,Tyrnavos,"12,028","11,116","11,069",141,Thessaly
+142,Glyka Nera,"5,813","6,623","11,049",142,Attica
+143,Ymittos,"11,671","11,139","10,715",143,Attica
+144,Neo Psychiko,"12,023","10,848","10,137",144,Attica
+,,,,,,
+For other more formats kindly visit www.downloadexcelfiles.com,,,,,,
+,,,,,,
+Original source : en.wikipedia.org/wiki/List_of_cities_in_Greece,,,,,,

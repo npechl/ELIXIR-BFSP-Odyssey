@@ -17,13 +17,12 @@ ui <- page_sidebar(
     window_title = "MBioG",
     
     sidebar = sidebar(
-        datasetInput("data", is.data.frame),
-        selectVarInput("var")
+        datasetInput("data", is.data.frame)
+        # selectVarInput("var")
     ),
     
     navset_underline(
-        nav_panel(title = "Table", histogramOutput("hist")),
-        nav_panel(title = "Map", p("Third tab content"))
+        nav_panel(title = "Table", histogramOutput("hist"))
     ),
     
     theme = bs_theme(
@@ -52,8 +51,8 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
     data <- datasetServer("data")
-    x <- selectVarServer("var", data)
-    histogramServer("hist", x)
+    # x <- selectVarServer("var", data)
+    # histogramServer("hist", x)
 }
 
 shinyApp(ui, server)
