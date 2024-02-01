@@ -24,5 +24,5 @@ install.packages("shiny")
 
 # Run the Shiny app
 library(shiny)
-runApp("UPDATE_PATH")
+runApp("main.R")
 ```
