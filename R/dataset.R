@@ -22,8 +22,9 @@ datasetInput <- function(id, filter = NULL) {
     
     radioButtons(
         NS(id, "dataset"), 
-        "Input data source", 
-        choices = c("EBI", "Wiki")
+        "Input data source",
+        choices = c("EBI")
+        #choices = c("EBI", "Wiki")
     )
     
     # names <- ls("package:datasets")

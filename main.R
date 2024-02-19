@@ -2,10 +2,13 @@
 
 library(shiny)
 library(bslib)
+library(data.table)
 
 source("R/histogram.R")
 source("R/dataset.R")
 source("R/selectVar.R")
+
+
 
 # base_font = "Jost"
 # heading_font = "Jost"
@@ -22,13 +25,18 @@ ui <- page_sidebar(
     ),
     
     navset_underline(
-        nav_panel(title = "Table", histogramOutput("hist"))
+        nav_panel(title = "Table")
+        #nav_panel(title = "Table", histogramOutput("hist"))
     ),
     
     theme = bs_theme(
         preset = "cosmo",
         base_font = font_google("Jost")
-    )
+    ),
+    
+    fluidPage(
+        tableOutput("static")
+    ), 
     
     # fluidRow(
     #     column(3, 
@@ -51,6 +59,10 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
     data <- datasetServer("data")
+    
+    df = fread("../MBioG/inst_ext_data/MBioG.csv", sep = ",")
+    
+    output$static <- renderTable(head(df))
     # x <- selectVarServer("var", data)
     # histogramServer("hist", x)
 }
