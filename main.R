@@ -60,7 +60,7 @@ ui <- page_sidebar(
 server <- function(input, output, session) {
     data <- datasetServer("data")
     
-    df = fread("../MBioG/inst_ext_data/MBioG.csv", sep = ",")
+    df = fread("../MBioG/inst_ext_data/MBioG.csv", sep = ",", header = TRUE)
     
     output$static <- renderTable(head(df))
     # x <- selectVarServer("var", data)
