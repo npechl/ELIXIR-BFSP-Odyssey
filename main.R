@@ -1,5 +1,4 @@
 
-
 library(shiny)
 library(bslib)
 library(data.table)
@@ -60,9 +59,13 @@ ui <- page_sidebar(
 server <- function(input, output, session) {
     data <- datasetServer("data")
     
-    df = fread("../MBioG/inst_ext_data/MBioG.csv", sep = ",", header = TRUE)
+    df = fread(
+        "https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,isolation_source,location,tax_division,scientific_name,tag")
+    #df = fread("../MBioG/inst_ext_data/MBioG.csv", sep = ",", header = TRUE)
     
-    output$static <- renderTable(head(df))
+    
+    output$static <- renderTable(df)
+    #output$static <- renderTable(head(df))
     # x <- selectVarServer("var", data)
     # histogramServer("hist", x)
 }
