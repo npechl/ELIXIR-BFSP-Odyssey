@@ -4,44 +4,32 @@ library(shiny)
 library(data.table)
 library(stringr)
 
-#' @export
-datasetInput2 <- function(id, filter = NULL) {
-    
-    names <- ls("package:datasets")
-    
-    if (!is.null(filter)) {
-        data <- lapply(names, get, "package:datasets")
-        names <- names[vapply(data, filter, logical(1))]
-    }
-    
-    selectInput(NS(id, "dataset"), "Pick a dataset", choices = names)
-}
-
-
-datasetInput <- function(id, filter = NULL) {
+sourceInput <- function(id) {
     
     radioButtons(
-        NS(id, "dataset"), 
+        NS(id, "sourceInput"), 
         "Input data source",
         choices = c("EBI")
-        #choices = c("EBI", "Wiki")
     )
     
-    # names <- ls("package:datasets")
-    
-    # if (!is.null(filter)) {
-    #     data <- lapply(names, get, "package:datasets")
-    #     names <- names[vapply(data, filter, logical(1))]
-    # }
-    
-    # selectInput(NS(id, "dataset"), "Pick a dataset", choices = names)
 }
 
 #' @export
 datasetServer <- function(id) {
-    # moduleServer(id, function(input, output, session) {
-    #     reactive(get(input$dataset, "package:datasets"))
-    # })
+    moduleServer(id, function(input, output, session) {
+        
+        # reactive(get(input$dataset, "package:datasets"))
+        fread("inst/extdata/data.tsv")
+        
+    })
+}
+
+tableServer <- function(id, df) {
+    moduleServer(id, function(input, output, session) {
+        
+        renderTable(df[1:100])
+        
+    })
 }
 
 
