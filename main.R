@@ -22,10 +22,14 @@ ui <- page_sidebar(
     
     navset_underline(
         nav_panel(
+            title = "First page"
+        ),
+        
+        nav_panel(
             title = "Table",  
             
             fluidPage(
-                tableOutput("table")
+               reactableOutput("table")
             )
             
         ),
@@ -43,6 +47,7 @@ ui <- page_sidebar(
 server <- function(input, output, session) {
     
     df <- datasetServer("dataServer")
+    
     output$table = tableServer("tableServer", df) 
     
 }

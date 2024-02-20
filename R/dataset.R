@@ -19,18 +19,34 @@ datasetServer <- function(id) {
     moduleServer(id, function(input, output, session) {
         
         # reactive(get(input$dataset, "package:datasets"))
-        fread("inst/extdata/data.tsv")
+        out = fread("inst/extdata/data.tsv")
+        
+        mask = out |>
+            nrow() |>
+            seq_len() |>
+            sample(100)
+        
+        return(out[mask])
         
     })
 }
 
 tableServer <- function(id, df) {
     moduleServer(id, function(input, output, session) {
-        
-        renderTable(df[1:100])
-        
+        # df <- reactive()
+        output$table <- renderReactable({
+            reactable(df, filterable = TRUE, minRows = 10)
+        })
     })
 }
+
+# tableServer <- function(id, df) {
+#     moduleServer(id, function(input, output, session) {
+#         
+#         renderTable(df[1:100])
+#         
+#     })
+# }
 
 
 lexicon <- function(string) {
