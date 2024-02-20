@@ -18,11 +18,15 @@ ui <- page_sidebar(
     
     sidebar = sidebar(
         sourceInput("source"),
+        
+        fluidPage(
+            
+        )
     ),
     
     navset_underline(
         nav_panel(
-            title = "First page"
+            title = "Analysis"
         ),
         
         nav_panel(
@@ -43,6 +47,8 @@ ui <- page_sidebar(
     )
     
 )
+
+
 
 server <- function(input, output, session) {
     
