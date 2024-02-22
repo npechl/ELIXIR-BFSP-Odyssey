@@ -73,10 +73,10 @@ server <- function(input, output, session) {
     output$table = tableServer("tableServer", df)
 
 
-    output$data_rows <- renderText({
-        paste("Number of Rows: ", nrow(df))
-    })
+    output$data_rows <- textServer("textServer", df)
 
 }
+
+
 
 shinyApp(ui, server)

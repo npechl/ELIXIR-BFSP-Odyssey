@@ -43,9 +43,16 @@ tableServer <- function(id, df) {
     })
 }
 
+textServer <- function(id, df) {
+     moduleServer(id, function(input, output, session) {
+         renderText({
+             paste("Number of Rows: ", nrow(df))
+         })
 
-
-
+         
+         
+    })
+}
 
 # tableServer <- function(id, df) {
 #     moduleServer(id, function(input, output, session) {
