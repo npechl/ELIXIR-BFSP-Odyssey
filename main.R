@@ -2,6 +2,7 @@
 library(shiny)
 library(bslib)
 library(data.table)
+library(reactable)
 
 source("R/histogram.R")
 source("R/dataset.R")
@@ -17,16 +18,31 @@ ui <- page_sidebar(
     window_title = "MBioG",
     
     sidebar = sidebar(
-        sourceInput("source"),
-        
-        fluidPage(
-            
-        )
+        sourceInput("source")
+        # fluidPage(
+        #     
+        # )
     ),
     
     navset_underline(
+        
         nav_panel(
-            title = "Analysis"
+            title = "Analysis",
+            fluidPage(
+                # div(
+                #     style = "border: 4px solid #ddd;
+                #              padding: 10px; margin-bottom: 20px; 
+                #              margin-top: 20px;",
+                #     p("Hello world.")
+                # ),
+                div(
+                    id = "data_box",
+                    style = "border: 2px solid #ddd; margin-bottom: 20px;
+                             padding: 10px; margin-top: 20px;",
+                    textOutput("data_rows")
+                )
+            ),
+            
         ),
         
         nav_panel(
@@ -38,7 +54,8 @@ ui <- page_sidebar(
             
         ),
         
-        nav_panel(title = "Map", p("TODO"))
+        nav_panel(title = "Map",
+                  p("TODO"))
     ),
     
     theme = bs_theme(
@@ -49,13 +66,17 @@ ui <- page_sidebar(
 )
 
 
-
 server <- function(input, output, session) {
-    
+
     df <- datasetServer("dataServer")
-    
-    output$table = tableServer("tableServer", df) 
-    
+
+    output$table = tableServer("tableServer", df)
+
+
+    output$data_rows <- renderText({
+        paste("Number of Rows: ", nrow(df))
+    })
+
 }
 
 shinyApp(ui, server)
