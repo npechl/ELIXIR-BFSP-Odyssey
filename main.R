@@ -1,8 +1,13 @@
 
+rm(list = ls())
+gc()
+
+
 library(shiny)
 library(bslib)
 library(data.table)
 library(reactable)
+library(dplyr)
 
 source("R/histogram.R")
 source("R/dataset.R")
@@ -18,27 +23,25 @@ ui <- page_sidebar(
     window_title = "MBioG",
     
     sidebar = sidebar(
-        sourceInput("source")
-        # fluidPage(
-        #     
-        # )
+        sourceInput("source"),
+        hr(),
+        tableOptions("tableFilter"),
+        hr(),
+        rangeInput("range")
     ),
     
+
     navset_underline(
         
         nav_panel(
-            title = "Analysis",
+            title = "Overview",
             fluidPage(
-                # div(
-                #     style = "border: 4px solid #ddd;
-                #              padding: 10px; margin-bottom: 20px; 
-                #              margin-top: 20px;",
-                #     p("Hello world.")
-                # ),
                 div(
                     id = "data_box",
-                    style = "border: 2px solid #ddd; margin-bottom: 20px;
-                             padding: 10px; margin-top: 20px;",
+                    style = "border: 2px solid #ddd; 
+                             margin-bottom: 20px;
+                             padding: 10px; 
+                             margin-top: 20px;",
                     textOutput("data_rows")
                 )
             ),
@@ -49,7 +52,8 @@ ui <- page_sidebar(
             title = "Table",  
             
             fluidPage(
-               reactableOutput("table")
+               reactableOutput("table"),
+               verbatimTextOutput("selected")
             )
             
         ),
@@ -67,16 +71,15 @@ ui <- page_sidebar(
 
 
 server <- function(input, output, session) {
+    
+    df1 <- datasetServer("dataServer")
 
-    df <- datasetServer("dataServer")
+    output$table <- tableServer("tableServer", df1)
+    
 
-    output$table = tableServer("tableServer", df)
-
-
-    output$data_rows <- textServer("textServer", df)
+    output$data_rows <- textServer("textServer", df1)
 
 }
-
 
 
 shinyApp(ui, server)
