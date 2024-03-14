@@ -30,7 +30,7 @@ ui <- page_sidebar(
         rangeInput("range")
     ),
     
-
+    
     navset_underline(
         
         nav_panel(
@@ -52,8 +52,8 @@ ui <- page_sidebar(
             title = "Table",  
             
             fluidPage(
-               reactableOutput("table"),
-               verbatimTextOutput("selected")
+                reactableOutput("table"),
+                verbatimTextOutput("selected")
             )
             
         ),
@@ -72,13 +72,67 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
     
-    df1 <- datasetServer("dataServer")
-
-    output$table <- tableServer("tableServer", df1)
     
-
-    output$data_rows <- textServer("textServer", df1)
-
+    #df1 <- datasetServer("dataServer")
+    
+    
+    out = fread("inst/extdata/data.tsv")
+    
+    sorted <- out[order(out$first_public), ]
+    
+    
+    
+    
+    df1 <- reactive({
+        
+        months_of_interest <- input$range
+        
+        
+        filtered_df <- sorted |>
+            filter(first_public >= months_of_interest)
+        
+        return(filtered_df)
+        
+    })
+    
+    
+    
+    
+    # output$table <- tableServer("tableServer", df1())
+    # 
+    # output$data_rows <- textServer("textServer", df1)
+    
+    output$table <- renderReactable ({
+        reactable(
+            df1(),
+            groupBy = "tax_division",
+            bordered = TRUE,
+            filterable = as.logical(input$tableFilter),
+            #minRows = 10,
+            #paginationType = "jump",
+            #showPageSizeOptions = TRUE,
+            #paginationType = "simple",
+        )
+        
+    })
+    
+    
+    
+    output$data_rows <- renderText({
+        
+        paste0("Number of Rows: ",  nrow(df1()))
+        
+    })
+    
+    # filtered_rows <- reactive({
+    #     nrow(df1())
+    # })
+    # 
+    # 
+    # 
+    
+    # 
+    
 }
 
 
