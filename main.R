@@ -14,7 +14,6 @@ source("R/dataset.R")
 source("R/selectVar.R")
 
 
-ytd
 # base_font = "Jost"
 # heading_font = "Jost"
 
@@ -24,6 +23,8 @@ ui <- page_sidebar(
     
     sidebar = sidebar(
         sourceInput("source"),
+        hr(),
+        groupbyOptions("group_by"),
         hr(),
         tableOptions("tableFilter"),
         hr(),
@@ -78,7 +79,7 @@ server <- function(input, output, session) {
     
     out = fread("inst/extdata/data.tsv")
     
-    sorted <- out[order(out$first_public), ]
+    sorted <- out[order(first_public)]
     
     
     
@@ -105,13 +106,12 @@ server <- function(input, output, session) {
     output$table <- renderReactable ({
         reactable(
             df1(),
-            groupBy = "tax_division",
+            groupBy = input$group_by,
             bordered = TRUE,
-            filterable = as.logical(input$tableFilter),
+            filterable = input$tableFilter,
+            paginationType = "jump",
             #minRows = 10,
-            #paginationType = "jump",
             #showPageSizeOptions = TRUE,
-            #paginationType = "simple",
         )
         
     })

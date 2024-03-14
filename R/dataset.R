@@ -16,24 +16,35 @@ sourceInput <- function(id) {
     
 }
 
+groupbyOptions <- function(id) {
+
+    checkboxGroupInput(
+        "group_by",
+        "Group by",
+        choices = c("Tax_division" = "tax_division", 
+                    "Sientific_name" = "scientific_name", 
+                    "Tag" = "tag"),
+        selected = NULL
+    )
+
+}
+
 tableOptions <- function(id) {
     
     checkboxInput(
         "tableFilter",
         "Show filter",
-        TRUE)
+        FALSE)
     
 }
 
-
-
 rangeInput <- function(id) {
     
-    dateRangeInput("range",
-                   "Dates of interest:",
-                   start = as.character(Sys.Date() - months(6)),
-                   end = as.character(Sys.Date())
-                   
+    dateRangeInput(
+        "range",
+        "Dates of interest:",
+        start = Sys.Date() - months(6),
+        end = Sys.Date()        
     )
     
 }
@@ -123,74 +134,74 @@ rangeInput <- function(id) {
 # }
 
 
-lexicon <- function(string) {
-    
-    string |>
-        str_replace_all("Rethymnon|Rethymno|Rethimno", "Rethimnon") |>
-        str_replace_all("Carpathos")
-    
-    
-}
-
-
-retrieve_ebi_data <- function(string) {
-    
-    if( !RCurl::url.exists(string) ) stop(c("url ", string, " not accessible!"))
-    
-    df = string |> fread(verbose = FALSE)
-    
-    # correct scientific name
-    df$scientific_name = df$scientific_name |> str_squish() |> str_to_title()
-    
-    df$country = df$country |>
-        str_replace_all("-|\\[|\\]|\\(|\\)", " ") |>
-        str_squish()
-    
-    
-    df$region = df$country |>
-        str_split_i("\\:", 2) |>
-        str_squish() |>
-        str_to_title()
-    
-    df$country = df$country |> str_split_i("\\:", 1)
-    df$country = ifelse(df$country == "Greece Greece", "Greece", df$country)
-    
-    df = df[which(country == "Greece")]
-    
-    df$lat = df$location |>
-        str_split_i("N", 1) |>
-        str_squish() |>
-        as.numeric()
-    
-    df$lon = df$location |>
-        str_split_i("N", 2) |>
-        str_remove_all("E") |>
-        str_squish() |>
-        as.numeric()
-    
-    df$region = df$region |> lexicon()
-    
-    # part 2 --------------------------
-    
-    a = df[which( !is.na(lat) & !is.na(lon) )]
-    b = df[which( is.na(lat) | is.na(lon) )]
-    
-    for(i in seq_along(greece_cities$name)) {
-        
-        index = b$region |>
-            str_detect(greece_cities[i]$name) |>
-            which()
-        
-        b[index]$lat = greece_cities[i]$lat
-        b[index]$lon = greece_cities[i]$long
-        
-    }
-    
-    a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
-    b = b[which(is.na(lat) | is.na(lon))]
-    
-    df = rbind(a, b)
-    
-}
-
-
+# lexicon <- function(string) {
+#     
+#     string |>
+#         str_replace_all("Rethymnon|Rethymno|Rethimno", "Rethimnon") |>
+#         str_replace_all("Carpathos")
+#     
+#     
+# }
+# 
+# 
+# retrieve_ebi_data <- function(string) {
+#     
+#     if( !RCurl::url.exists(string) ) stop(c("url ", string, " not accessible!"))
+#     
+#     df = string |> fread(verbose = FALSE)
+#     
+#     # correct scientific name
+#     df$scientific_name = df$scientific_name |> str_squish() |> str_to_title()
+#     
+#     df$country = df$country |>
+#         str_replace_all("-|\\[|\\]|\\(|\\)", " ") |>
+#         str_squish()
+#     
+#     
+#     df$region = df$country |>
+#         str_split_i("\\:", 2) |>
+#         str_squish() |>
+#         str_to_title()
+#     
+#     df$country = df$country |> str_split_i("\\:", 1)
+#     df$country = ifelse(df$country == "Greece Greece", "Greece", df$country)
+#     
+#     df = df[which(country == "Greece")]
+#     
+#     df$lat = df$location |>
+#         str_split_i("N", 1) |>
+#         str_squish() |>
+#         as.numeric()
+#     
+#     df$lon = df$location |>
+#         str_split_i("N", 2) |>
+#         str_remove_all("E") |>
+#         str_squish() |>
+#         as.numeric()
+#     
+#     df$region = df$region |> lexicon()
+#     
+#     # part 2 --------------------------
+#     
+#     a = df[which( !is.na(lat) & !is.na(lon) )]
+#     b = df[which( is.na(lat) | is.na(lon) )]
+#     
+#     for(i in seq_along(greece_cities$name)) {
+#         
+#         index = b$region |>
+#             str_detect(greece_cities[i]$name) |>
+#             which()
+#         
+#         b[index]$lat = greece_cities[i]$lat
+#         b[index]$lon = greece_cities[i]$long
+#         
+#     }
+#     
+#     a = rbind(a, b[which( !is.na(lat) & !is.na(lon) )])
+#     b = b[which(is.na(lat) | is.na(lon))]
+#     
+#     df = rbind(a, b)
+#     
+# }
+# 
+# 
