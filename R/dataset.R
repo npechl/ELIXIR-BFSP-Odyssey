@@ -6,132 +6,85 @@ library(stringr)
 library(lubridate)
 library(dplyr)
 
+
 sourceInput <- function(id) {
     
-    radioButtons(
-        NS(id, "sourceInput"), 
-        "Input data source",
-        choices = c("EBI")
-    )
+    radioButtons(NS(id, "source_input"), "Input data source",choices = c("EBI"))
     
-}
-
-groupbyOptions <- function(id) {
-
-    checkboxGroupInput(
-        "group_by",
-        "Group by",
-        choices = c("Tax_division" = "tax_division", 
-                    "Sientific_name" = "scientific_name", 
-                    "Tag" = "tag"),
-        selected = NULL
-    )
-
 }
 
 tableOptions <- function(id) {
-    
-    checkboxInput(
-        "tableFilter",
-        "Show filter",
-        FALSE)
-    
-}
-
-rangeInput <- function(id) {
-    
-    dateRangeInput(
-        "range",
-        "Dates of interest:",
-        start = Sys.Date() - months(6),
-        end = Sys.Date()        
+    tagList(
+        checkboxInput(NS(id, "table_filter"), "Show filter",FALSE),
+        hr(),
+        checkboxGroupInput(NS(id, "group_by"), "Group by", selected = NULL,
+                           choices = c("Tax_division" = "tax_division", 
+                           "Sientific_name" = "scientific_name","Tag" = "tag")),
+        hr(),
+        dateRangeInput(NS(id, "range"), "Dates of interest:",
+                       start = Sys.Date() - months(6), end = Sys.Date(),
+                       max =  Sys.Date())
+        
     )
-    
 }
 
+datasetServer <- function(id) {
+    moduleServer(id, function(input, output, session) {
+
+        out = fread("inst/extdata/data.tsv")
+
+    })
+}
+
+filterServer <- function(id, df) {
+    moduleServer(id, function(input, output, session) {
+
+     filtered <- reactive({
+         df[first_public >= input$range[1] & first_public <= input$range[2]]
+       })
+    })
+}
+
+tableServer <- function(id, df) {
+    moduleServer(id, function(input, output, session) {
+
+        filtered_df <- reactive({
+            df[first_public >= input$range[1] & first_public <= input$range[2]
+            ]
+        })
 
 
-#' #' @export
-#' datasetServer <- function(id) {
-#'     moduleServer(id, function(input, output, session) {
-#' 
-#'         # reactive(get(input$dataset, "package:datasets"))
-#'         out = fread("inst/extdata/data.tsv")
-#' 
-#'         sorted <- out[order(out$first_public), ]
-#'         
-#' 
-#'         # months_of_interest <- input$range
-#'         # #six_months_ago <- Sys.Date() - months(6)
-#'         # 
-#'         # filtered_df <- sorted |>
-#'         #             filter(first_public >= months_of_interest)
-#'         # 
-#'         # 
-#'         # 
-#'         # 
-#'         # return(filtered_df)
-#' 
-#' 
-#' 
-#'         
-#'         # mask = out |>
-#'         #     nrow() |>
-#'         #     seq_len() |>
-#'         #     sample(100)
-#' 
-#' 
-#'         #return(out[mask])
-#' 
-#' 
-#'     })
-#' }
+        renderReactable({
+            reactable(
+                    filtered_df(),
+                    groupBy = input$group_by,
+                    minRows = 10,
+                    paginationType = "jump",
+                    bordered = TRUE,
+                    showPageSizeOptions = TRUE,
+                    filterable = as.logical(input$table_filter)
+                )
 
+        })
+    })
+}
 
+textServer1 <- function(id, df) {
+     moduleServer(id, function(input, output, session) {
 
-# tableServer <- function(id, df) {
-#     moduleServer(id, function(input, output, session) {
-# 
-#         renderReactable({
-#             reactable(
-#                     df,
-#                     groupBy = "tax_division",
-#                     minRows = 10,
-#                     paginationType = "jump",
-#                     bordered = TRUE,
-#                     showPageSizeOptions = TRUE,
-#                     filterable = as.logical(input$tableFilter)
-#                 )
-#         })
-#     })
-# }
+         renderText({ paste("Number of Rows: ",  nrow(df())) })
 
+    })
+}
 
+textServer2 <- function(id, df) {
+    moduleServer(id, function(input, output, session) {
+        
+        renderText({ paste("Table statistics: ") })
+        
+    })
+}
 
-
-
-
-
-
-# textServer <- function(id, df) {
-#      moduleServer(id, function(input, output, session) {
-# 
-#          renderText({
-#              paste("Number of Rows: ",  nrow(df))
-#          })
-#          
-#     })
-# }
-
-
-
-# tableServer <- function(id, df) {
-#     moduleServer(id, function(input, output, session) {
-#         
-#         renderTable(df[1:100])
-#         
-#     })
-# }
 
 
 # lexicon <- function(string) {

@@ -19,16 +19,13 @@ source("R/selectVar.R")
 
 ui <- page_sidebar(
     title = "Molecular Biodiversity Greece",
-    window_title = "MBioG",
+    window_title = "MBG",
     
     sidebar = sidebar(
         sourceInput("source"),
         hr(),
-        groupbyOptions("group_by"),
-        hr(),
-        tableOptions("tableFilter"),
-        hr(),
-        rangeInput("range")
+        tableOptions("table1"),
+        hr()
     ),
     
     
@@ -37,13 +34,23 @@ ui <- page_sidebar(
         nav_panel(
             title = "Overview",
             fluidPage(
+
                 div(
                     id = "data_box",
-                    style = "border: 2px solid #ddd; 
+                    style = "border: 3px solid #ddd;
                              margin-bottom: 20px;
-                             padding: 10px; 
+                             padding: 10px;
                              margin-top: 20px;",
                     textOutput("data_rows")
+                ),
+                div(
+                    id = "statistics",
+                    style = "border: 3px solid #ddd;
+                             margin-bottom: 20px;
+                             padding: 10px;
+                             margin-top: 20px;",
+                    textOutput("table_statistics")
+
                 )
             ),
             
@@ -54,13 +61,14 @@ ui <- page_sidebar(
             
             fluidPage(
                 reactableOutput("table"),
-                verbatimTextOutput("selected")
             )
             
         ),
         
-        nav_panel(title = "Map",
-                  p("TODO"))
+        nav_panel(
+            title = "Map",
+            p("TODO")
+        )
     ),
     
     theme = bs_theme(
@@ -73,66 +81,16 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
     
+    df_raw <- datasetServer("table1")
+     
+    df1 <- filterServer("table1", df_raw)
     
-    #df1 <- datasetServer("dataServer")
+    output$table <- tableServer("table1", df1())
     
-    
-    out = fread("inst/extdata/data.tsv")
-    
-    sorted <- out[order(first_public)]
-    
-    
-    
-    
-    df1 <- reactive({
-        
-        months_of_interest <- input$range
-        
-        
-        filtered_df <- sorted |>
-            filter(first_public >= months_of_interest)
-        
-        return(filtered_df)
-        
-    })
-    
-    
-    
-    
-    # output$table <- tableServer("tableServer", df1())
-    # 
-    # output$data_rows <- textServer("textServer", df1)
-    
-    output$table <- renderReactable ({
-        reactable(
-            df1(),
-            groupBy = input$group_by,
-            bordered = TRUE,
-            filterable = input$tableFilter,
-            paginationType = "jump",
-            #minRows = 10,
-            #showPageSizeOptions = TRUE,
-        )
-        
-    })
-    
-    
-    
-    output$data_rows <- renderText({
-        
-        paste0("Number of Rows: ",  nrow(df1()))
-        
-    })
-    
-    # filtered_rows <- reactive({
-    #     nrow(df1())
-    # })
-    # 
-    # 
-    # 
-    
-    # 
-    
+    output$data_rows <- textServer1("table1", df1)
+
+    output$table_statistics <- textServer2("table1", df1)
+
 }
 
 
