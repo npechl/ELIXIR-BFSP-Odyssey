@@ -15,7 +15,7 @@ MBioG is a shiny application for the exploration of molecular biodiversity in Gr
 *TODO - Provide instructions on how to install and run your Shiny application locally. Include any dependencies or packages that need to be installed.*
 
 ## Usage
-```R
+```r
 # Install necessary packages
 install.packages("shiny")
 
@@ -36,5 +36,5 @@ This work, as a whole, is licensed under the [MIT license](https://github.com/np
 The code contained in this website is simultaneously available under the MIT license; this means that you are free to use it in your own packages, as long as you cite the source.
 
 ## Authors
-`r fontawesome::fa("github", "black")` [Natasa Anastasiadou](https://github.com/NatAnastas) &nbsp;
-`r fontawesome::fa("github", "black")` [Nikos Pechlivanis](https://github.com/npechl)
+- [Natasa Anastasiadou](https://github.com/NatAnastas)
+- [Nikos Pechlivanis](https://github.com/npechl)
