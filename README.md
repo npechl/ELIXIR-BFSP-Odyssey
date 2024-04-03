@@ -1,6 +1,6 @@
-# MBioG
+# Odyssey
 
-MBioG is a shiny application for the exploration of molecular biodiversity in Greece.
+Odyssey is an R shiny application for the exploration of Molecular Biodiversity in Greece.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ runApp("main.R")
 ```
 
 ## Contributing
-Your input is invaluable - whether it's suggesting a new chart or reporting a bug, we welcome and greatly appreciate your feedback! 
+Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug, we welcome and greatly appreciate your feedback! 
 
 Feel free to open a [GitHub issue](https://github.com/npechl/MBioG/issues) or contact us via `inab.bioinformatics@lists.certh.gr`.
 
