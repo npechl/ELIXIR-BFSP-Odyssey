@@ -4,20 +4,17 @@ MBioG is a shiny application for the exploration of molecular biodiversity in Gr
 
 ## Table of Contents
 
-- [Demo](#demo)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-
-## Demo
-
-Include a link or information about where users can access a live demo of your Shiny application. If it's not deployed online, you can skip this section.
+- [Authors](#authors)
 
 ## Installation
 
-Provide instructions on how to install and run your Shiny application locally. Include any dependencies or packages that need to be installed.
+*TODO - Provide instructions on how to install and run your Shiny application locally. Include any dependencies or packages that need to be installed.*
 
+## Usage
 ```R
 # Install necessary packages
 install.packages("shiny")
@@ -26,3 +23,18 @@ install.packages("shiny")
 library(shiny)
 runApp("main.R")
 ```
+
+## Contributing
+Your input is invaluable - whether it's suggesting a new chart or reporting a bug, we welcome and greatly appreciate your feedback! 
+
+Feel free to open a [GitHub issue](https://github.com/npechl/MBioG/issues) or contact us via `inab.bioinformatics@lists.certh.gr`.
+
+
+## License
+This work, as a whole, is licensed under the [MIT license](https://github.com/npechl/MBioG/blob/main/LICENSE).
+
+The code contained in this website is simultaneously available under the MIT license; this means that you are free to use it in your own packages, as long as you cite the source.
+
+## Authors
+`r fontawesome::fa("github", "black")` [Natasa Anastasiadou](https://github.com/NatAnastas) &nbsp;
+`r fontawesome::fa("github", "black")` [Nikos Pechlivanis](https://github.com/npechl)
