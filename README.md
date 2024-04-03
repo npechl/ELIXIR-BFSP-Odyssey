@@ -36,5 +36,4 @@ This work, as a whole, is licensed under the [MIT license](https://github.com/np
 The code contained in this website is simultaneously available under the MIT license; this means that you are free to use it in your own packages, as long as you cite the source.
 
 ## Authors
-- [Natasa Anastasiadou](https://github.com/NatAnastas)
-- [Nikos Pechlivanis](https://github.com/npechl)
+![GitHub icon](./inst/github.svg) [Natasa Anastasiadou](https://github.com/NatAnastas) &nbsp; ![GitHub icon](./inst/github.svg) [Nikos Pechlivanis](https://github.com/npechl)
