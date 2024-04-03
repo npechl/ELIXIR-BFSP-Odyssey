@@ -1,7 +1,4 @@
 
-rm(list = ls())
-gc()
-
 
 source("R/libraries.R")
 

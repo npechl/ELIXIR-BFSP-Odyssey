@@ -4,8 +4,8 @@
 
 
 ui <- page_sidebar(
-    title = "Molecular Biodiversity Greece",
-    window_title = "MBG",
+    title = "Exploring Molecular Biodiversity in Greece",
+    window_title = "Odyssey",
     
     
     # sidebar options ------------------
@@ -23,28 +23,28 @@ ui <- page_sidebar(
         ## overview panel --------------------------
         nav_panel(
             title = "Overview",
-            fluidPage(
-                
-                div(
-                    id = "data_box",
-                    style = "border: 3px solid #ddd;
-                             margin-bottom: 20px;
-                             padding: 10px;
-                             margin-top: 20px;",
-                    textOutput("data_rows")
+            
+            br(),
+            
+            layout_column_wrap(
+                value_box(
+                    title = "Number of Observations", 
+                    value = textOutput("data_rows"),
+                    theme = value_box_theme(bg = "#d8d8d8", fg = "#282828")
                 ),
                 
-                div(
-                    id = "statistics",
-                    style = "border: 3px solid #ddd;
-                             margin-bottom: 20px;
-                             padding: 10px;
-                             margin-top: 20px;",
-                    textOutput("table_statistics")
-                    
-                )
+                value_box(
+                    title = "Number of Tax divisions", 
+                    value = "blaavladfojis",
+                    theme = value_box_theme(bg = "#d8d8d8", fg = "#282828")
+                ),
                 
-            ),
+                value_box(
+                    title = "Number of tags", 
+                    value = "jfosdjfodjosdij",
+                    theme = value_box_theme(bg = "#d8d8d8", fg = "#282828")
+                )
+            )
             
         ),
         
@@ -55,7 +55,7 @@ ui <- page_sidebar(
             
             fluidPage(
                 br(),
-                reactableOutput("table"),
+                card(full_screen = TRUE, fill = FALSE, reactableOutput("table"))
             )
             
         ),
@@ -71,7 +71,7 @@ ui <- page_sidebar(
     
     # shinny app theme ----------------------------------------
     theme = bs_theme(
-        preset = "simplex",
+        preset = "cosmo",
         base_font = font_google("Jost")
     )
     

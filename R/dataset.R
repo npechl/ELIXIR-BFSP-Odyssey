@@ -67,8 +67,8 @@ tableServer <- function(id, df) {
                 groupBy = input$group_by,
                 filterable = input$table_filter |> as.logical(),
                 
-                minRows = 10, paginationType = "jump",
-                bordered = TRUE, showPageSizeOptions = TRUE
+                minRows = 15, paginationType = "jump",
+                bordered = FALSE, showPageSizeOptions = TRUE
             )
         })
         
@@ -78,7 +78,7 @@ tableServer <- function(id, df) {
 textServer1 <- function(id, df) {
      moduleServer(id, function(input, output, session) {
 
-         renderText({ paste("Number of Rows: ",  nrow(df())) })
+         renderText({  nrow(df()) |> scales::comma() })
 
     })
 }
