@@ -12,6 +12,10 @@ server <- function(input, output, session) {
     
     output$data_rows <- textServer1("table1", df1)
     
-    output$table_statistics <- textServer2("table1", df1)
+    output$tax_division <- textServer2("table1", df1)
+    
+    output$tags <- textServer3("table1", df1)
+    
+    output$table_statistics <- textServer4("table1", df1)
     
 }

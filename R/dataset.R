@@ -84,6 +84,22 @@ textServer1 <- function(id, df) {
 }
 
 textServer2 <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderText({ })
+    
+  })
+}
+
+textServer3 <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderText({ })
+    
+  })
+}
+
+textServer4 <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         renderText({ paste("Table statistics: ") })
