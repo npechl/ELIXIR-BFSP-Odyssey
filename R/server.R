@@ -18,4 +18,15 @@ server <- function(input, output, session) {
     
     output$table_statistics <- textServer4("table1", df1)
     
+    output$download <- downloadHandler(
+      filename = function(){
+        paste0("MBG table.csv")
+      },
+      
+      content = function(file){
+        
+        write.csv(df1(), file)
+      }
+    )
+    
 }

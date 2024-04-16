@@ -66,6 +66,8 @@ tableServer <- function(id, df) {
                 df(),
                 groupBy = input$group_by,
                 filterable = input$table_filter |> as.logical(),
+                theme = reactableTheme(
+                  backgroundColor  = "#F3F6FA"),
                 
                 minRows = 15, paginationType = "jump",
                 bordered = FALSE, showPageSizeOptions = TRUE
