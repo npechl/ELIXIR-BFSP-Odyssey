@@ -51,3 +51,4 @@ po/*~
 rsconnect/
 
 /.quarto/
+.Rproj.user
