@@ -14,7 +14,7 @@ server <- function(input, output, session) {
     
     output$tax_division <- textServer2("table1", df1)
     
-    output$tags <- textServer3("table1", df1)
+    # output$tags <- textServer3("table1", df1)
     
     output$names <- textServer4("table1", df1)
     

@@ -43,7 +43,8 @@ datasetServer <- function(id) {
         
         out = out |>
           dplyr::select(-altitude, -host_tax_id, -tax_division, -tax_id, 
-                        -lat, -long, -tag)
+                        -lat, -long, -tag, -location)
+        
 
     })
 }
@@ -100,9 +101,9 @@ textServer2 <- function(id, df) {
 
 # textServer3 <- function(id, df) {
 #   moduleServer(id, function(input, output, session) {
-#     
-#     renderText({ length(unique(df()$tag)) })
-#     
+# 
+#     renderText({ length(unique(df()$tag1)) })
+# 
 #   })
 # }
 

@@ -56,9 +56,9 @@ ui <- page_sidebar(
                     value = textOutput("tax_division"),
                     theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
                 ),
-                
+
                 # value_box(
-                #     title = "Number of tags", 
+                #     title = "Number of tags",
                 #     value = textOutput("tags"),
                 #     theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
                 # ),
