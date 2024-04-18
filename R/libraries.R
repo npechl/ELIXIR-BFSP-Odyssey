@@ -9,4 +9,5 @@ library(stringr)
 library(reactable)
 library(lubridate)
 
+library(leaflet)
 library(htmltools)
