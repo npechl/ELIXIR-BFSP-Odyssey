@@ -37,9 +37,9 @@ ui <- page_sidebar(
 
         ## overview panel --------------------------
         nav_panel(
-            title = tags$h5("Overview", 
-                            style = "color: #004164; margin-bottom: 10px;
-                                     margin-top: 5px;"
+            title = tags$h6(
+                "Overview", 
+                style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
             ),  
           
             br(),
@@ -48,7 +48,8 @@ ui <- page_sidebar(
                 value_box(
                     title = "Number of observations", 
                     value = textOutput("data_rows"),
-                    theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")                        
+                    theme = value_box_theme(bg = "#e5e8ec", fg = "#064467"),
+                    full_screen = TRUE
                 ),
                 
                 value_box(
@@ -83,13 +84,13 @@ ui <- page_sidebar(
         ## table panel --------------------------------
         
         nav_panel(
-          title = tags$h5("Table", 
+          title = tags$h6("Table", 
                           style = "color: #004164; margin-bottom: 10px; 
                                    margin-top: 5px;"
           ),      
             fluidPage(
                 br(),
-                card(full_screen = TRUE, fill = FALSE, reactableOutput("table"))
+                card(full_screen = TRUE, fill = TRUE, reactableOutput("table"))
             ), 
             
             downloadButton("download", "Download as CSV")
@@ -98,27 +99,33 @@ ui <- page_sidebar(
         
         ## map panel --------------------------
         nav_panel(
-          title = tags$h5("Map", 
-                          style = "color: #004164; margin-bottom: 10px; 
-                                   margin-top: 5px;"
+            
+          title = tags$h6(
+              "Map", 
+              style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
+              
           ),
+          
           fluidPage(
             br(), 
-            p("TODO")
+            card(full_screen = TRUE, fill = FALSE, leafletOutput("map", height = "55em", width = "auto"))
           )
+          
         ),
         
         ## About this app --------------------------
         nav_panel(
-          title = tags$h5("About this app", 
-                          style = "color: #004164; margin-bottom: 10px;
-                                   margin-top: 5px;"
+            
+          title = tags$h6(
+              "About this app", 
+              style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
           ),
+          
           fluidPage(
             br(),
             uiOutput("about")
-            
           )
+          
         )
     ),
      
