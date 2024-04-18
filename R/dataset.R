@@ -41,9 +41,13 @@ datasetServer <- function(id) {
 
         out = fread("inst/extdata/data_ena_clean.tsv") 
         
-        out = out |>
-          dplyr::select(-altitude, -host_tax_id, -tax_division, -tax_id, 
-                        -lat, -long, -tag, -location)
+        out = out[order(-first_public)]
+        
+        return(out)
+        
+        # out = out |>
+        #   dplyr::select(-altitude, -host_tax_id, -tax_division, -tax_id, 
+        #                 -lat, -long, -tag, -location)
         
 
     })
@@ -68,8 +72,14 @@ tableServer <- function(id, df) {
         
         
         renderReactable({
+            
             reactable(
-                df(),
+                df()[, c(
+                    "accession", "first_public", "country", "region", "altitude",
+                    "host", "host_tax_id", "isolation_source", 
+                    "scientific_name", "tax_id", "topology", "tax_division2",  
+                    "tag1", "tag2", "tag3", "keywords"                        
+                ), with = FALSE],
                 groupBy = input$group_by,
                 filterable = input$table_filter |> as.logical(),
                 theme = reactableTheme( backgroundColor  = "#F3F6FA" ),
@@ -84,17 +94,19 @@ tableServer <- function(id, df) {
 }
 
 textServer1 <- function(id, df) {
+    
      moduleServer(id, function(input, output, session) {
 
-         renderText({  nrow(df()) |> scales::comma() })
+         renderText({  df() |> nrow() |> scales::comma() })
 
     })
+    
 }
 
 textServer2 <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
-    renderText({ length(unique(df()$tax_division2)) })
+    renderText({ df()$tax_division2 |> unique() |> length() })
     
   })
 }
@@ -110,7 +122,7 @@ textServer2 <- function(id, df) {
 textServer4 <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
-        renderText({ length(unique(df()$scientific_name)) })
+        renderText({ df()$scientific_name |> unique() |> length() })
         
     })
 }
@@ -118,9 +130,36 @@ textServer4 <- function(id, df) {
 textServer5 <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
-    renderText({ length(unique(df()$isolation_source)) })
+    renderText({ df()$isolation_source |> unique() |> length() })
     
   })
+}
+
+mapServer <- function(id, df) {
+    moduleServer(id, function(input, output, session) {
+        
+        renderLeaflet({
+            
+            df_s <- df()[which(!is.na(long) & !is.na(lat))]
+            
+            leaflet() |>
+                addProviderTiles("CartoDB.Positron") |>
+                setView(23.7275, 38, zoom = 6.5) |>
+                addCircleMarkers(
+                    data = df_s,
+                    lng = ~long, lat = ~lat, 
+                    stroke = TRUE, fill = TRUE, 
+                    color = "#033c73", fillColor = "#2fa4e7",
+                    radius = 5, weight = .5,
+                    opacity = 1, fillOpacity = .5,
+                    
+                    popup = ~htmlEscape(
+                        paste0(tax_division2, ": ", scientific_name)
+                    )
+                )
+        })
+        
+    })
 }
 
 abouttextUi <- function(id) {

@@ -10,6 +10,8 @@ server <- function(input, output, session) {
     
     output$table <- tableServer("table1", df1)
     
+    output$map <- mapServer("map", df1)
+    
     output$data_rows <- textServer1("table1", df1)
     
     output$tax_division <- textServer2("table1", df1)
