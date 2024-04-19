@@ -55,7 +55,11 @@ ui <- page_sidebar(
                 value_box(
                     title = "Number of tax divisions", 
                     value = textOutput("tax_division"),
-                    theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
+                    p("Tax with maximum number: ", ),
+                    p("Tax with minimum number: ",  ),
+                    theme = value_box_theme(bg = "#e5e8ec", fg = "#064467"),
+                    showcase = echarts4rOutput("plot1"),
+                    full_screen = TRUE
                 ),
 
                 # value_box(
@@ -75,9 +79,8 @@ ui <- page_sidebar(
                   value = textOutput("isolation_source"),
                   theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
                 )
-                
+
             )
-            
         ),
         
         

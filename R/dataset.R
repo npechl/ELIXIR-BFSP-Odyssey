@@ -98,7 +98,7 @@ textServer1 <- function(id, df) {
      moduleServer(id, function(input, output, session) {
 
          renderText({  df() |> nrow() |> scales::comma() })
-
+       
     })
     
 }
@@ -210,4 +210,28 @@ downloadServer <- function(id, df) {
     
   })
 }
+ 
+plotServer <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderEcharts4r({
+      
+      data_plot <- df() |>
+        group_by(tax_division2) |>
+        summarize(Number_of_taxes = n()) |>
+        arrange(desc(Number_of_taxes))
+      
+      data_plot |>
+        e_charts(tax_division2) |>
+        e_bar(Number_of_taxes, stack = "grp") |>
+        e_x_axis(axisLabel = list(rotate = 45)) |>
+        #e_y_axis(axisLabel = list(show = FALSE)) |>
+        e_legend(show = FALSE) |>
+        e_tooltip()
+      
+    })
+    
+  })
+}
+  
 
