@@ -26,4 +26,7 @@ server <- function(input, output, session) {
     
     output$download <- downloadServer("table1", df1)
     
+    output$plot1 <-  plotServer("table1", df1)
+    
+
 }
