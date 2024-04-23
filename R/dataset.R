@@ -80,6 +80,13 @@ tableServer <- function(id, df) {
                     "scientific_name", "tax_id", "topology", "tax_division2",  
                     "tag1", "tag2", "tag3", "keywords"                        
                 ), with = FALSE],
+                columns = list(
+                  accession = colDef(
+                    cell = function(value) {
+                    # Render as a link
+                    url <- sprintf("https://www.ebi.ac.uk/ena/browser/view/%s", value)
+                    htmltools::tags$a(href = url, target = "_blank", as.character(value))
+                  })),
                 groupBy = input$group_by,
                 filterable = input$table_filter |> as.logical(),
                 theme = reactableTheme( backgroundColor  = "#F3F6FA" ),
