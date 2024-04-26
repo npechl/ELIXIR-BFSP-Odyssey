@@ -376,8 +376,8 @@ treeServer <- function(id, df) {
                  ),
                  focus = 'descendant',
                  label = list(
-                   color = 'black'
-                   #fontWeight = 'bold'
+                   color = 'black',
+                   fontWeight = 'bold'
                  )
                )
         )
