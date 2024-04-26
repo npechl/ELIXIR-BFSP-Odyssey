@@ -26,7 +26,12 @@ server <- function(input, output, session) {
     
     output$download <- downloadServer("table1", df1)
     
-    output$plot1 <-  plotServer("table1", df1)
+    output$plot1 <-  plotServer1("table1", df1)
     
+    output$plot2 <-  plotServer2("table1", df1)
+    
+    output$tree1 <- treeServer("table1", df1)
+    
+
 
 }

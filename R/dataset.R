@@ -93,7 +93,10 @@ tableServer <- function(id, df) {
                 paginationType = "jump",
                 defaultPageSize = 15, 
                 showPageSizeOptions = TRUE,
-                pageSizeOptions = c(15, 25, 50, 100)
+                pageSizeOptions = c(15, 25, 50, 100),
+                selection = "multiple",
+                onClick = "select",
+                rowStyle = list(cursor = "pointer")
             )
         })
         
@@ -147,13 +150,14 @@ mapServer <- function(id, df) {
         
         renderLeaflet({
             
-            df_s <- df()[which(!is.na(long) & !is.na(lat))]
+            df_map <- df()[which(!is.na(long) & !is.na(lat))] |>
+                      SharedData$new(group = "locations")
             
             leaflet() |>
                 addProviderTiles("CartoDB.Positron") |>
                 setView(23.7275, 38, zoom = 6.5) |>
                 addCircleMarkers(
-                    data = df_s,
+                    data = df_map,
                     lng = ~long, lat = ~lat, 
                     stroke = TRUE, fill = TRUE, 
                     color = "#033c73", fillColor = "#2fa4e7",
@@ -165,6 +169,32 @@ mapServer <- function(id, df) {
                     )
                 )
         })
+      
+        # renderReactable({
+        #   
+        #     df_table <- df() |>
+        #                 SharedData$new(group = "locations")
+        #   
+        # 
+        #     reactable(
+        #       df_table()[, c(
+        #             "accession", "region", "altitude", "host",
+        #             "isolation_source", "scientific_name"
+        #         ), with = FALSE],
+        #         groupBy = input$group_by,
+        #         filterable = input$table_filter |> as.logical(),
+        #         theme = reactableTheme( backgroundColor  = "#F3F6FA" ),
+        #         paginationType = "jump",
+        #         defaultPageSize = 15,
+        #         showPageSizeOptions = TRUE,
+        #         pageSizeOptions = c(15, 25, 50, 100),
+        #         selection = "multiple",
+        #         onClick = "select",
+        #         rowStyle = list(cursor = "pointer")
+        #     )
+        # })
+
+      
         
     })
 }
@@ -218,7 +248,40 @@ downloadServer <- function(id, df) {
   })
 }
  
-plotServer <- function(id, df) {
+plotServer1 <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderEcharts4r({
+      
+      data_p1 <- df()[, c("first_public")]
+      
+      data_p1$first_public <- ymd(data_p1$first_public)
+      
+      
+      data_p1$year_month <- paste(year(data_p1$first_public), month(data_p1$first_public), sep = "-")
+      
+      
+      data_p1 <- data_p1 |>
+        group_by(year_month) |>
+        summarize(Dates = n())
+      
+      
+      
+      data_p1 |> 
+        e_charts(year_month) |> 
+        #e_line(Dates, color = "#447197", smooth = TRUE) |>
+        e_area(Dates, color = "#447197", smooth = TRUE) |> 
+        e_x_axis(axisLabel = list(rotate = 45))|>
+        e_legend(show = FALSE) |>
+        e_tooltip()
+      
+      
+    })
+    
+  })
+}
+
+plotServer2 <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
@@ -230,7 +293,7 @@ plotServer <- function(id, df) {
       
       data_plot |>
         e_charts(tax_division2) |>
-        e_bar(Number_of_taxes, stack = "grp") |>
+        e_bar(Number_of_taxes, stack = "grp", color = "#447197" ) |>
         e_x_axis(axisLabel = list(rotate = 45)) |>
         #e_y_axis(axisLabel = list(show = FALSE)) |>
         e_legend(show = FALSE) |>
@@ -240,5 +303,92 @@ plotServer <- function(id, df) {
     
   })
 }
+
+
+treeServer <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderEcharts4r({
+      
+      data_tree <- df()
+      
+      taxes <- unique(data_tree$tax_division2)
+      
+      tree_children <- list()
+      
+      
+      for (tax in taxes) {
+        
+        
+        filtered_data <- data_tree[data_tree$tax_division2 == tax, ]
+        
+        
+        values <- unique(filtered_data$scientific_name)
+        
+        
+        tax_tibble <- tibble(name = c(values))
+        
+        
+        tree_children[[tax]] <- tax_tibble
+      }
+      
+      
+      tree <- tibble(
+        name = "Taxonomy",
+        children = list(
+          tibble(name = c(taxes), children = tree_children)
+        )
+      )
+      
+
+      
+      tree |> 
+        e_charts() |> 
+        e_tree(
+               label = list(
+                 position = 'right',
+                 verticalAlign = 'middle',
+                 fontSize = 12
+               ),
+               leaves = list(
+                 label = list(
+                   position = 'right',
+                   verticalAlign = 'middle',
+                   align = 'left'
+                 )
+               ),
+               symbolSize = 10,
+               top = '1%',
+               left = '10%',
+               bottom = '1%',
+               right = '10%',
+               initialTreeDepth = 1,
+               expandAndCollapse = TRUE,
+               animationDuration = 550,
+               animationDurationUpdate = 750,
+               tooltip = list(trigger = 'item', triggerOn = 'mousemove'),
+               itemStyle = list(
+                 color = '#447197'  # Change the color of the nodes here
+               ),
+               emphasis = list(
+                 itemStyle = list(
+                   borderWidth = 1
+                 ),
+                 focus = 'descendant',
+                 label = list(
+                   color = 'black',
+                   fontWeight = 'bold'
+                 )
+               )
+        )
+
+      
+      
+      
+     })
+    
+  })
+}
+
   
 
