@@ -18,3 +18,7 @@ library(dplyr)
 library(ggplot2)
 
 library(plotly)
+
+library(crosstalk)
+library(tibble)
+

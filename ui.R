@@ -49,6 +49,7 @@ ui <- page_sidebar(
                     title = "Number of observations", 
                     value = textOutput("data_rows"),
                     theme = value_box_theme(bg = "#e5e8ec", fg = "#064467"),
+                    showcase = echarts4rOutput("plot1"),
                     full_screen = TRUE
                 ),
                 
@@ -58,7 +59,7 @@ ui <- page_sidebar(
                     p("Tax with maximum number: ", ),
                     p("Tax with minimum number: ",  ),
                     theme = value_box_theme(bg = "#e5e8ec", fg = "#064467"),
-                    showcase = echarts4rOutput("plot1"),
+                    showcase = echarts4rOutput("plot2"),
                     full_screen = TRUE
                 ),
 
@@ -80,6 +81,19 @@ ui <- page_sidebar(
                   theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
                 )
 
+            ), 
+            
+            fluidPage(
+              br(), 
+              card(
+                card_header("Taxes tree"),
+                full_screen = TRUE, fill = FALSE,
+                card_body(
+                  #markdown("In this section you can select an organism and visualize a collapsible tree."),
+                  echarts4rOutput("tree1")            
+                ),
+                
+              )
             )
         ),
         
@@ -101,6 +115,7 @@ ui <- page_sidebar(
         ),
         
         ## map panel --------------------------
+        
         nav_panel(
             
           title = tags$h6(
@@ -111,11 +126,14 @@ ui <- page_sidebar(
           
           fluidPage(
             br(), 
-            card(full_screen = TRUE, fill = FALSE, leafletOutput("map", height = "55em", width = "auto"))
+            card(
+              full_screen = TRUE, fill = FALSE, 
+              leafletOutput("map", height = "55em", width = "auto")
+            )
           )
           
         ),
-        
+
         ## About this app --------------------------
         nav_panel(
             
@@ -130,6 +148,7 @@ ui <- page_sidebar(
           )
           
         )
+        
     ),
      
 
