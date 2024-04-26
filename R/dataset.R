@@ -371,13 +371,13 @@ treeServer <- function(id, df) {
                  color = '#447197'  # Change the color of the nodes here
                ),
                emphasis = list(
-                 # itemStyle = list(
-                 #   borderWidth = 3
-                 # ),
+                 itemStyle = list(
+                   borderWidth = 1
+                 ),
                  focus = 'descendant',
                  label = list(
-                   color = 'black',
-                   fontWeight = 'bold'
+                   color = 'black'
+                   #fontWeight = 'bold'
                  )
                )
         )
