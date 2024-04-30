@@ -20,14 +20,14 @@ ui <- page_sidebar(
           target = "_blank",
           style = "color: #F3F6FA; margin-top: 5px;
                font-size: 1.5em; margin-left: 0; padding-right: 15px;"
-        )
-        # a(
-        #   href = "https://github.com/npechl/odyssey/issues",
-        #   icon("circle-dot", lib = "font-awesome"),
-        #   target = "_blank",
-        #   style = "color: #F3F6FA; margin-top: 5px;
-        #        font-size: 1.3em; margin-right: 5px"
-        # ),
+        ),
+        a(
+          href = "https://github.com/npechl/odyssey/issues",
+          icon("circle-dot", lib = "font-awesome"),
+          target = "_blank",
+          style = "color: #F3F6FA; margin-top: 5px;
+               font-size: 1.3em; margin-right: 5px"
+        ),
         # a(
         #   href = "https://github.com/npechl/odyssey/blob/main/LICENSE",
         #   icon("scale-balanced", lib = "font-awesome"),
