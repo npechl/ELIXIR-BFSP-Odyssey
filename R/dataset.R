@@ -121,15 +121,7 @@ textServer2 <- function(id, df) {
   })
 }
 
-# textServer3 <- function(id, df) {
-#   moduleServer(id, function(input, output, session) {
-# 
-#     renderText({ length(unique(df()$tag1)) })
-# 
-#   })
-# }
-
-textServer4 <- function(id, df) {
+textServer3 <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         renderText({ df()$scientific_name |> unique() |> length() })
@@ -137,7 +129,7 @@ textServer4 <- function(id, df) {
     })
 }
 
-textServer5 <- function(id, df) {
+textServer4 <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderText({ df()$isolation_source |> unique() |> length() })
@@ -298,6 +290,35 @@ plotServer2 <- function(id, df) {
         #e_y_axis(axisLabel = list(show = FALSE)) |>
         e_legend(show = FALSE) |>
         e_tooltip()
+      
+    })
+    
+  })
+}
+
+plotServer3 <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderEcharts4r({
+      
+      data_plot <- df() |>
+        group_by(scientific_name) |>
+        summarize(Number_of_names = n()) |>
+        arrange(desc(Number_of_names)) |>
+        filter(Number_of_names > 5)
+      
+      
+      data_plot |>
+        e_color_range(Number_of_names, color, colors = c("#064467", "#004164")) |>
+        e_charts() |> 
+        e_cloud(scientific_name,
+                Number_of_names,
+                color = color ,
+                shape = "circle", 
+                rotationRange = c(0, 0),
+                sizeRange = c(9, 28)) |>
+        e_tooltip()
+      
       
     })
     
