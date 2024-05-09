@@ -94,7 +94,7 @@ tableServer <- function(id, df) {
                 defaultPageSize = 15, 
                 showPageSizeOptions = TRUE,
                 pageSizeOptions = c(15, 25, 50, 100),
-                selection = "multiple",
+                #selection = "multiple",
                 onClick = "select",
                 rowStyle = list(cursor = "pointer")
             )
