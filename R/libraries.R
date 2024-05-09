@@ -10,6 +10,7 @@ library(reactable)
 library(lubridate)
 
 library(leaflet)
+library(leaflet.extras)
 library(htmltools)
 
 library(echarts4r)
@@ -22,3 +23,4 @@ library(plotly)
 library(crosstalk)
 library(tibble)
 
+library(paletteer)

@@ -30,6 +30,8 @@ server <- function(input, output, session) {
     
     output$plot3 <-  plotServer3("table1", df1)
     
+    output$plot4 <-  plotServer4("table1", df1)
+    
     output$tree1 <- treeServer("table1", df1)
     
 
