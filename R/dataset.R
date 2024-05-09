@@ -150,78 +150,58 @@ mapServer <- function(id, df) {
                 setView(23.7275, 38, zoom = 6.5) |>
                 addCircleMarkers(
                     data = df_map,
-                    lng = ~long, lat = ~lat, 
-                    stroke = TRUE, fill = TRUE, 
-                    color = "#033c73", fillColor = "#2fa4e7",
+                    lng = ~long, lat = ~lat,
+                    clusterOptions = markerClusterOptions(),
+                    stroke = TRUE, 
+                    fill = TRUE, 
+                    color = "#033c73", 
+                    fillColor = "#2fa4e7",
                     radius = 5, weight = .5,
-                    opacity = 1, fillOpacity = .5,
+                    opacity = 1, 
+                    fillOpacity = 1,
                     
                     popup = ~htmlEscape(
-                        paste0(tax_division2, ": ", scientific_name)
+                        paste0(tax_division2, ": ", scientific_name),
+                        
                     )
-                )
+                ) 
+
         })
       
-        # renderReactable({
-        #   
-        #     df_table <- df() |>
-        #                 SharedData$new(group = "locations")
-        #   
-        # 
-        #     reactable(
-        #       df_table()[, c(
-        #             "accession", "region", "altitude", "host",
-        #             "isolation_source", "scientific_name"
-        #         ), with = FALSE],
-        #         groupBy = input$group_by,
-        #         filterable = input$table_filter |> as.logical(),
-        #         theme = reactableTheme( backgroundColor  = "#F3F6FA" ),
-        #         paginationType = "jump",
-        #         defaultPageSize = 15,
-        #         showPageSizeOptions = TRUE,
-        #         pageSizeOptions = c(15, 25, 50, 100),
-        #         selection = "multiple",
-        #         onClick = "select",
-        #         rowStyle = list(cursor = "pointer")
-        #     )
-        # })
-
-      
-        
     })
 }
 
-abouttextUi <- function(id) {
-  moduleServer(id, function(input, output, session) {
-    
-    renderUI( 
-      HTML("
-        <div>
-          <h3 style='color: #004164;'>Last update</h3>
-          <p>This app is updated once every six months.</p>
-          <br>
-          <h3 style='color: #004164;'>Contribution</h3>
-          <p>Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug,
-             we welcome and greatly appreciate your feedback!</p>
-          <p>Feel free to open a <a href='https://github.com/npechl/MBioG/issues' style='color: #004164;'>GitHub issue</a> 
-             or contact us via <a href='mailto:inab.bioinformatics@lists.certh.gr' style='color: #004164;'>inab.bioinformatics@lists.certh.gr</a>.</p>
-          <br>
-          <h3 style='color: #004164;'>MIT license</h3>
-          <p>This work, as a whole, is licensed under the <a href='https://github.com/npechl/MBioG/blob/main/LICENSE' style='color: #004164;'>MIT license</a>.</p>
-          <p>The code contained in this website is simultaneously available under the MIT license; 
-             this means that you are free to use it in your own packages, as long as you cite the source.</p>
-          <br>
-          <h3 style='color: #004164;'>Authors</h3>
-          <p><a href='https://github.com/npechl' style='color: #004164;'>Nikos Pechlivanis <i class='fab fa-github'></i></a></p>
-          <p><a href='https://github.com/NatAnastas' style='color: #004164;'>Natasa Anastasiadou <i class='fab fa-github'></i></a></p>
-        </div>
-      ")
-      
-    )
-    
-  })
-  
-}
+# abouttextUi <- function(id) {
+#   moduleServer(id, function(input, output, session) {
+#     
+#     renderUI( 
+#       HTML("
+#         <div>
+#           <h3 style='color: #004164;'>Last update</h3>
+#           <p>This app is updated once every six months.</p>
+#           <br>
+#           <h3 style='color: #004164;'>Contribution</h3>
+#           <p>Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug,
+#              we welcome and greatly appreciate your feedback!</p>
+#           <p>Feel free to open a <a href='https://github.com/npechl/MBioG/issues' style='color: #004164;'>GitHub issue</a> 
+#              or contact us via <a href='mailto:inab.bioinformatics@lists.certh.gr' style='color: #004164;'>inab.bioinformatics@lists.certh.gr</a>.</p>
+#           <br>
+#           <h3 style='color: #004164;'>MIT license</h3>
+#           <p>This work, as a whole, is licensed under the <a href='https://github.com/npechl/MBioG/blob/main/LICENSE' style='color: #004164;'>MIT license</a>.</p>
+#           <p>The code contained in this website is simultaneously available under the MIT license; 
+#              this means that you are free to use it in your own packages, as long as you cite the source.</p>
+#           <br>
+#           <h3 style='color: #004164;'>Authors</h3>
+#           <p><a href='https://github.com/npechl' style='color: #004164;'>Nikos Pechlivanis <i class='fab fa-github'></i></a></p>
+#           <p><a href='https://github.com/NatAnastas' style='color: #004164;'>Natasa Anastasiadou <i class='fab fa-github'></i></a></p>
+#         </div>
+#       ")
+#       
+#     )
+#     
+#   })
+#   
+# }
 
 downloadServer <- function(id, df) {
   moduleServer(id, function(input, output, session) {
@@ -319,6 +299,45 @@ plotServer3 <- function(id, df) {
                 sizeRange = c(9, 28)) |>
         e_tooltip()
       
+      
+    })
+    
+  })
+}
+
+plotServer4 <- function(id, df) {
+  moduleServer(id, function(input, output, session) {
+    
+    renderEcharts4r({
+      
+      data_plot <- df() |>
+        group_by(isolation_source) |>
+        summarize(Number_of_isolation_source = n())
+        #filter(Number_of_isolation_source > 10)
+      
+      data_plot[1,1] = "Unknown source"
+      #data_plot = data_plot[-1,]
+      
+      
+      data_plot |>
+        e_chart(isolation_source) |>
+        e_pie(Number_of_isolation_source, 
+              color = c("#628db5", "#DF8F44", "#B24745", "#79AF97","#725663",
+                        "#6A6599", "#0072B5", "#F39B7F", "#919C4C", "#F5C04A"),
+              #color = paletteer_d("ggsci::default_jama"),
+              emphasis = list(
+                itemStyle = list(
+                  borderWidth = 1
+                ),
+                focus = 'descendant',
+                label = list(
+                  color = 'black',
+                  fontWeight = 'bold'
+                )
+              )
+              )|>
+        e_legend(show = FALSE) |>
+        e_tooltip() 
       
     })
     

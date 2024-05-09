@@ -117,7 +117,9 @@ ui <- page_sidebar(
                 value_box(
                   title = "Number of isolation source", 
                   value = textOutput("isolation_source"),
-                  theme = value_box_theme(bg = "#e5e8ec", fg = "#064467")
+                  theme = value_box_theme(bg = "#e5e8ec", fg = "#064467"),
+                  showcase = echarts4rOutput("plot4"),
+                  full_screen = TRUE
                 )
 
             ), 
