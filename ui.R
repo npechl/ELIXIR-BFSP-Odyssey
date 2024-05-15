@@ -52,7 +52,6 @@ ui <- page_sidebar(
         fluidPage(
           style = "position: absolute; bottom: 15px; left: 0; right: 0;",
           h5(
-            "Authors",
             style = "color: #004164;"
           ),
           p(
