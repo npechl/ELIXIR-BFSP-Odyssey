@@ -160,12 +160,17 @@ mapServer <- function(id, df) {
                     opacity = 1, 
                     fillOpacity = 1,
                     
-                    popup = ~htmlEscape(
-                        paste0(tax_division2, ": ", scientific_name),
-                        
+                    popup = ~paste0(
+                      "<b>Accession:</b> ", "<a href='https://www.ebi.ac.uk/ena/browser/view/", accession, "' target='_blank'>", accession, "</a><br>",
+                      "<b>Tax Division:</b> ", tax_division2, "<br>",
+                      "<b>Scientific Name:</b> ", scientific_name, "<br>"
                     )
-                ) 
 
+                    # popup = ~htmlEscape(
+                    #     paste0(tax_division2, ": ", scientific_name)
+                    # 
+                    # )
+                )
         })
       
     })
