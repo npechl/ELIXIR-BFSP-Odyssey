@@ -14,11 +14,11 @@ library(leaflet.extras)
 library(htmltools)
 
 library(echarts4r)
-library(dplyr)
+# library(dplyr)
 
 library(ggplot2)
 
-library(plotly)
+# library(plotly)
 
 library(crosstalk)
 library(tibble)
