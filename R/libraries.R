@@ -21,6 +21,6 @@ library(ggplot2)
 # library(plotly)
 
 library(crosstalk)
-library(tibble)
+# library(tibble)
 
 library(paletteer)
