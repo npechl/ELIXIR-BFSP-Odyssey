@@ -39,15 +39,57 @@ tableOptions <- function(id) {
 datasetServer <- function(id) {
     moduleServer(id, function(input, output, session) {
 
-        out = fread("inst/extdata/data_ena_clean.tsv") 
+        out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+
+        # fix tax
+        tax_division_lookup <- list(
+          "PRO" = "Prokaryota",
+          "VRL" = "Virus",
+          "MAM" = "Mammalia",
+          "INV" = "Invertebrates",
+          "VRT" = "Vertebrates",
+          "PLN" = "Plantae",
+          "FUN" = "Fungi",
+          "HUM" = "Homo sapiens",
+          "ENV" = "Environment",
+          "ROD" = "Rodentia",
+          "MUS" = "Mus",
+          "PHG" = "Phage"
+        )
+
+        out$tax_division2 <- sapply(out$tax_division, function(x) {
+          if (x == "") {
+            "Unknown"
+          } else {
+            tax_division_lookup[[x]]
+          }
+        })
         
+        out$tax_division2 <- as.character(out$tax_division2)
+        
+
+        # fix tags
+        split_tags <- str_split(out$tag, "[:;]", simplify = TRUE)
+
+        out$tag1 <- split_tags[, 1]
+        out$tag2 <- split_tags[, 2]
+        out$tag3 <- split_tags[, 3]
+        out$tag4 <- split_tags[, 4]
+        out$tag5 <- split_tags[, 5]
+
+
+        # lat long
+        split_location <- str_match(out$location, "([0-9.]+) N ([0-9.]+) E")
+
+        out$lat <- as.numeric(split_location[, 2])
+        out$long <- as.numeric(split_location[, 3])
+
+        # out = fread("inst/extdata/data_ena_clean.tsv")
+        
+        # fix order
         out = out[order(-first_public)]
         
         return(out)
-        
-        # out = out |>
-        #   dplyr::select(-altitude, -host_tax_id, -tax_division, -tax_id, 
-        #                 -lat, -long, -tag, -location)
         
 
     })
@@ -75,10 +117,14 @@ tableServer <- function(id, df) {
             
             reactable(
                 df()[, c(
-                    "accession", "first_public", "country", "region", "altitude",
-                    "host", "host_tax_id", "isolation_source", 
-                    "scientific_name", "tax_id", "topology", "tax_division2",  
-                    "tag1", "tag2", "tag3", "keywords"                        
+                  # "accession", "first_public", "country", "region", "altitude",
+                  # "host", "host_tax_id", "isolation_source",  "scientific_name",
+                  # "tax_id", "topology", "tax_division2", "tag1", "tag2", "tag3",
+                  # "keywords"
+                  "accession", "first_public", "country", "altitude",
+                  "host", "host_tax_id", "isolation_source",  "scientific_name",
+                  "tax_id", "topology", "tax_division2", "tag1", "tag2", "tag3",
+                  "keywords"
                 ), with = FALSE],
                 columns = list(
                   accession = colDef(
@@ -94,7 +140,6 @@ tableServer <- function(id, df) {
                 defaultPageSize = 15, 
                 showPageSizeOptions = TRUE,
                 pageSizeOptions = c(15, 25, 50, 100),
-                #selection = "multiple",
                 onClick = "select",
                 rowStyle = list(cursor = "pointer")
             )
@@ -178,34 +223,44 @@ mapServer <- function(id, df) {
 
 # abouttextUi <- function(id) {
 #   moduleServer(id, function(input, output, session) {
-#     
-#     renderUI( 
+# 
+#     renderUI(
 #       HTML("
 #         <div>
-#           <h3 style='color: #004164;'>Last update</h3>
-#           <p>This app is updated once every six months.</p>
+#           <h2 style='color: #004164;'>Welcome</h2>
+#           <h5 style='color: #326286;'>Welcome to Odyssey, an interactive R Shiny web application designed to facilitate the exploration of molecular biodiversity in Greece.</h5>
 #           <br>
-#           <h3 style='color: #004164;'>Contribution</h3>
-#           <p>Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug,
-#              we welcome and greatly appreciate your feedback!</p>
-#           <p>Feel free to open a <a href='https://github.com/npechl/MBioG/issues' style='color: #004164;'>GitHub issue</a> 
-#              or contact us via <a href='mailto:inab.bioinformatics@lists.certh.gr' style='color: #004164;'>inab.bioinformatics@lists.certh.gr</a>.</p>
+#           <h2 style='color: #004164;'>Who is the site intended for?</h2>
+#           <h5 style='color: #326286;'>The app provides a user-friendly interface that allows researchers, educators and citizens to navigate into the intricate world of molecular biodiversity effortlessly.</h5>
 #           <br>
-#           <h3 style='color: #004164;'>MIT license</h3>
-#           <p>This work, as a whole, is licensed under the <a href='https://github.com/npechl/MBioG/blob/main/LICENSE' style='color: #004164;'>MIT license</a>.</p>
-#           <p>The code contained in this website is simultaneously available under the MIT license; 
-#              this means that you are free to use it in your own packages, as long as you cite the source.</p>
+#           <h2 style='color: #004164;'>Methodology</h2>
+#           <h5 style='color: #326286;'>The current app prototype queries ENA to gather sequence data from samples taken across Greece.</h5>
+#           <h5 style='color: #326286;'>It provides tools for data exploration and analysis, including descriptive statistics, graphs, maps, customizable filters, and dynamic visualizations.</h5>
+#           <h5 style='color: #326286;'>The modular design ensures flexibility and scalability, allowing easy integration of new datasets and analytical tools in the future.</h5>
 #           <br>
-#           <h3 style='color: #004164;'>Authors</h3>
-#           <p><a href='https://github.com/npechl' style='color: #004164;'>Nikos Pechlivanis <i class='fab fa-github'></i></a></p>
-#           <p><a href='https://github.com/NatAnastas' style='color: #004164;'>Natasa Anastasiadou <i class='fab fa-github'></i></a></p>
+#           <h2 style='color: #004164;'>Last update</h2>
+#           <h5 style='color: #326286;'>This app is updated once every six months.</h5>
+#           <br>
+#           <h2 style='color: #004164;'>Contribution</h2>
+#           <h5 style='color: #326286;'>Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug, we welcome and greatly appreciate your feedback!</h5>
+#           <h5 style='color: #326286;'>Feel free to open a <a href='https://github.com/npechl/MBioG/issues' style='color: #004164;'>GitHub issue</a>
+#              or contact us via <a href='mailto:inab.bioinformatics@lists.certh.gr' style='color: #004164;'>inab.bioinformatics@lists.certh.gr</a>.</h5>
+#           <br>
+#           <h2 style='color: #004164;'>Contribution</h2>
+#           <h5 style='color: #326286;'>This work, as a whole, is licensed under the <a href='https://github.com/npechl/MBioG/blob/main/LICENSE' style='color: #004164;'>MIT license</a>.</h5>
+#           <h5 style='color: #326286;'>The code contained in this website is simultaneously available under the MIT license;
+#              this means that you are free to use it in your own packages, as long as you cite the source.</h5>
+#           <br>
+#           <h2 style='color: #004164;'>Authors</h2>
+#           <h5 style='color: #326286;'><a href='https://github.com/npechl' style='color: #004164;'>Nikos Pechlivanis <i class='fab fa-github'></i></a></h5>
+#           <h5 style='color: #326286;'><a href='https://github.com/NatAnastas' style='color: #004164;'>Natasa Anastasiadou <i class='fab fa-github'></i></a></h5>
 #         </div>
 #       ")
-#       
+# 
 #     )
-#     
+# 
 #   })
-#   
+# 
 # }
 
 downloadServer <- function(id, df) {
@@ -264,11 +319,6 @@ plotServer2 <- function(id, df) {
     
     renderEcharts4r({
       
-      # data_plot <- df() |>
-      #   group_by(tax_division2) |>
-      #   summarize(Number_of_taxes = n()) |>
-      #   arrange(desc(Number_of_taxes))
-
       data_plot <- df()[, by = tax_division2, .(Number_of_taxes = .N)]
       data_plot <- data_plot[order(-Number_of_taxes)]
       
@@ -276,7 +326,6 @@ plotServer2 <- function(id, df) {
         e_charts(tax_division2) |>
         e_bar(Number_of_taxes, stack = "grp", color = "#447197" ) |>
         e_x_axis(axisLabel = list(rotate = 45)) |>
-        #e_y_axis(axisLabel = list(show = FALSE)) |>
         e_legend(show = FALSE) |>
         e_tooltip()
       

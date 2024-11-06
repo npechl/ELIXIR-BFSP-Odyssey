@@ -76,6 +76,21 @@ ui <- page_sidebar(
     
     # navigation -------------------
     navset_underline(
+      
+      # # Home --------------------------
+      # nav_panel(
+      # 
+      #   title = tags$h6(
+      #     "Home",
+      #     style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
+      #   ),
+      # 
+      #   fluidPage(
+      #     br(),
+      #     uiOutput("home")
+      #   )
+      # 
+      # ),
 
         ## overview panel --------------------------
         nav_panel(
@@ -171,22 +186,7 @@ ui <- page_sidebar(
             )
           )
           
-        ),
-
-        ## About this app --------------------------
-        # nav_panel(
-        #     
-        #   title = tags$h6(
-        #       "About this app", 
-        #       style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
-        #   ),
-        #   
-        #   fluidPage(
-        #     br(),
-        #     uiOutput("about")
-        #   )
-        #   
-        # )
+        )
         
     ),
      
@@ -197,7 +197,6 @@ ui <- page_sidebar(
       bg = "#F3F6FA",
       fg = "#004164",
       base_font = font_google("Jost")
-
     )
 
 
