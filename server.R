@@ -20,7 +20,7 @@ server <- function(input, output, session) {
     
     output$isolation_source <- textServer4("table1", df1)
     
-    # output$home <- abouttextUi("home")
+    output$home <- hometextUi("home")
     
     output$download <- downloadServer("table1", df1)
     
