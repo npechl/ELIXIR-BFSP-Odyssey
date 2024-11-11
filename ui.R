@@ -77,21 +77,21 @@ ui <- page_sidebar(
     # navigation -------------------
     navset_underline(
       
-      # # Home --------------------------
-      # nav_panel(
-      # 
-      #   title = tags$h6(
-      #     "Home",
-      #     style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
-      #   ),
-      # 
-      #   fluidPage(
-      #     br(),
-      #     uiOutput("home")
-      #   )
-      # 
-      # ),
-
+      # # About --------------------------
+      nav_panel(
+        
+        title = tags$h6(
+          "Home",
+          style = "color: #004164; margin-bottom: 10px; margin-top: 5px;"
+        ),
+        
+        fluidPage(
+          br(),
+          uiOutput("home")
+        )
+        
+      ),
+      
         ## overview panel --------------------------
         nav_panel(
             title = tags$h6(
@@ -190,7 +190,7 @@ ui <- page_sidebar(
         
     ),
      
-
+    
     # shinny app theme ----------------------------------------
     theme = bs_theme(
       preset = "cerulean",
