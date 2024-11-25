@@ -10,7 +10,7 @@ Odyssey is an R shiny application for the exploration of Molecular Biodiversity 
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
-- [Publications](#publications)
+- [Related_Publications](#related_publications)
 
 ## Installation
 
@@ -41,6 +41,6 @@ The code contained in this website is simultaneously available under the MIT lic
 - [Nikos Pechlivanis](https://github.com/npechl)
 - [Natasa Anastasiadou](https://github.com/NatAnastas)
 
-## Publications
+## Related_Publications
 - [Nikos Pechlivanis](https://github.com/npechl)
 - [Natasa Anastasiadou](https://github.com/NatAnastas)
