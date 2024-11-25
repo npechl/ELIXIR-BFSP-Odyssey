@@ -2,6 +2,7 @@
 
 Odyssey is an R shiny application for the exploration of Molecular Biodiversity in Greece.
 
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -9,6 +10,7 @@ Odyssey is an R shiny application for the exploration of Molecular Biodiversity 
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
+- [Related_Publications](#related_publications)
 
 ## Installation
 
@@ -38,3 +40,6 @@ The code contained in this website is simultaneously available under the MIT lic
 ## Authors
 - [Nikos Pechlivanis](https://github.com/npechl)
 - [Natasa Anastasiadou](https://github.com/NatAnastas)
+
+## Related_Publications
+- N. Pechlivanis, A. Anastasiadou, A. Papageorgiou, E. Pafilis, and F. Psomopoulos, “Odyssey: an Interactive R Shiny App Approach to explore Molecular Biodiversity in Greece,” **23rd European Conference On Computational Biology (ECCB24)**, Sep. 2024, doi: [10.5281/ZENODO.14186452](https://zenodo.org/records/14186453).
