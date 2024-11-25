@@ -41,4 +41,4 @@ The code contained in this website is simultaneously available under the MIT lic
 - [Nikos Pechlivanis](https://github.com/npechl)
 - [Natasa Anastasiadou](https://github.com/NatAnastas)
 
-  ## Related Publications
+## Related Publications
