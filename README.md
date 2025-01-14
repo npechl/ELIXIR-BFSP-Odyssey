@@ -16,28 +16,20 @@ Odyssey is an R shiny application for the exploration of Molecular Biodiversity 
 
 To install Odyssey, follow these steps:
 1. Install the necessary R packages. You can use the following command to install all dependencies:
-
 ```r
 # Install necessary packages
 install.packages(c("shiny", "data.table", "bslib", "stringr", "ggplot2", "paletteer", "reactable", "lubridate", "leaflet", "leaflet.extras", "htmltools", "echarts4r", "crosstalk"))
 ```
 2. Clone the repository from GitHub
-
 ```r
 git clone https://github.com/BiodataAnalysisGroup/ELIXIR-BFSP-Odyssey.git
 ```
 
 ## Usage
-```r
-# Run the Shiny app
-source("R/libraries.R")
-source("R/dataset.R")
-source("ui.R")
-source("server.R")
+To run the Odyssey Shiny app, follow these steps:
 
-shinyApp(ui, server)
-
-```
+1. Open the main.R script in RStudio.
+2. Execute the script by clicking the "Run" button
 
 ## Contributing
 Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug, we welcome and greatly appreciate your feedback! 
