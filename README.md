@@ -14,16 +14,23 @@ Odyssey is an R shiny application for the exploration of Molecular Biodiversity 
 
 ## Installation
 
-*TODO - Provide instructions on how to install and run your Shiny application locally. Include any dependencies or packages that need to be installed.*
-
-## Usage
 ```r
 # Install necessary packages
 install.packages("shiny")
 
+
+```
+
+## Usage
+```r
 # Run the Shiny app
-library(shiny)
-runApp("main.R")
+source("R/libraries.R")
+source("R/dataset.R")
+source("ui.R")
+source("server.R")
+
+shinyApp(ui, server)
+
 ```
 
 ## Contributing
