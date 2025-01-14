@@ -1,11 +1,11 @@
 
-sourceInput <- function(id) {
+sourceInput    <- function(id) {
     
   radioButtons(NS(id, "source_input"), "Input data source", choices = c("ENA"))
     
 }
 
-tableOptions <- function(id) {
+tableOptions   <- function(id) {
     
     
     tagList(
@@ -36,7 +36,7 @@ tableOptions <- function(id) {
     
 }
 
-datasetServer <- function(id) {
+datasetServer  <- function(id) {
     moduleServer(id, function(input, output, session) {
 
         out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
@@ -95,7 +95,7 @@ datasetServer <- function(id) {
     })
 }
 
-filterServer <- function(id, df) {
+filterServer   <- function(id, df) {
     
     moduleServer(id, function(input, output, session) {
         
@@ -109,7 +109,7 @@ filterServer <- function(id, df) {
     
 }
 
-tableServer <- function(id, df) {
+tableServer    <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         
@@ -148,7 +148,7 @@ tableServer <- function(id, df) {
     })
 }
 
-textServer1 <- function(id, df) {
+textServer1    <- function(id, df) {
     
      moduleServer(id, function(input, output, session) {
 
@@ -158,7 +158,7 @@ textServer1 <- function(id, df) {
     
 }
 
-textServer2 <- function(id, df) {
+textServer2    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderText({ df()$tax_division2 |> unique() |> length() })
@@ -166,7 +166,7 @@ textServer2 <- function(id, df) {
   })
 }
 
-textServer3 <- function(id, df) {
+textServer3    <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         renderText({ df()$scientific_name |> unique() |> length() })
@@ -174,7 +174,7 @@ textServer3 <- function(id, df) {
     })
 }
 
-textServer4 <- function(id, df) {
+textServer4    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderText({ df()$isolation_source |> unique() |> length() })
@@ -182,7 +182,7 @@ textServer4 <- function(id, df) {
   })
 }
 
-mapServer <- function(id, df) {
+mapServer      <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         renderLeaflet({
@@ -221,7 +221,7 @@ mapServer <- function(id, df) {
     })
 }
 
-hometextUi <- function(id) {
+hometextUi     <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     renderUI(
@@ -256,15 +256,6 @@ hometextUi <- function(id) {
 
 }
 
-
-# <h3 style='color: #004164;'>Last update</h3>
-#   <h6 style='color: #326286;'>This app is updated once every six months.</h5>
-#   <br>
-# <br>
-#   <h3 style='color: #004164;'>Authors</h3>
-#   <h6 style='color: #326286;'><a href='https://github.com/npechl' style='color: #004164;'>Nikos Pechlivanis <i class='fab fa-github'></i></a></h6>
-#   <h6 style='color: #326286;'><a href='https://github.com/NatAnastas' style='color: #004164;'>Natasa Anastasiadou <i class='fab fa-github'></i></a></h6>
-
 downloadServer <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
@@ -282,7 +273,7 @@ downloadServer <- function(id, df) {
   })
 }
  
-plotServer1 <- function(id, df) {
+plotServer1    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
@@ -316,7 +307,7 @@ plotServer1 <- function(id, df) {
   })
 }
 
-plotServer2 <- function(id, df) {
+plotServer2    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
@@ -336,7 +327,7 @@ plotServer2 <- function(id, df) {
   })
 }
 
-plotServer3 <- function(id, df) {
+plotServer3    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
@@ -368,7 +359,7 @@ plotServer3 <- function(id, df) {
   })
 }
 
-plotServer4 <- function(id, df) {
+plotServer4    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
@@ -409,8 +400,7 @@ plotServer4 <- function(id, df) {
   })
 }
 
-
-treeServer <- function(id, df) {
+treeServer     <- function(id, df) {
   moduleServer(id, function(input, output, session) {
     
     renderEcharts4r({
