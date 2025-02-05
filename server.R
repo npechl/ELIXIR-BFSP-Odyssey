@@ -34,6 +34,10 @@ server <- function(input, output, session) {
     
     output$tree1 <- treeServer("table1", df1)
     
+    # Keep session alive
+    observeEvent(input$keepAlive, {
+      session$keepAlive
+    })
 
 
 }
