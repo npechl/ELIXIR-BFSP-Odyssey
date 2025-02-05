@@ -191,13 +191,23 @@ ui <- page_sidebar(
     ),
      
     
-    # shinny app theme ----------------------------------------
+    # shinny app theme ---------
     theme = bs_theme(
       preset = "cerulean",
       bg = "#F3F6FA",
       fg = "#004164",
       base_font = font_google("Jost")
+    ),
+    
+    
+    # keep session alive --------
+    tags$script(
+      "var timeout = setInterval(function(){
+      Shiny.onInputChange('keepAlive', new Date().getTime());
+      }, 15000);"
     )
 
+    
+    
 
 )
