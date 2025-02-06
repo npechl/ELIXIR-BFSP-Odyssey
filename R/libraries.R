@@ -1,10 +1,13 @@
 
 
 library(shiny)
-library(bslib)
-
 library(data.table)
+
+library(bslib)
 library(stringr)
+
+library(ggplot2)
+library(paletteer)
 
 library(reactable)
 library(lubridate)
@@ -14,13 +17,5 @@ library(leaflet.extras)
 library(htmltools)
 
 library(echarts4r)
-# library(dplyr)
-
-library(ggplot2)
-
-# library(plotly)
-
 library(crosstalk)
-# library(tibble)
 
-library(paletteer)
