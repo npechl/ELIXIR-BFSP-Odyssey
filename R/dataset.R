@@ -1,39 +1,39 @@
 
 sourceInput    <- function(id) {
-    
+
   radioButtons(NS(id, "source_input"), "Input data source", choices = c("ENA"))
-    
+
 }
 
 tableOptions   <- function(id) {
-    
-    
+
+
     tagList(
-        
-        checkboxInput(NS(id, "table_filter"), "Show filter", FALSE), 
+
+        checkboxInput(NS(id, "table_filter"), "Show filter", FALSE),
         hr(),
-        
+
         checkboxGroupInput(
             NS(id, "group_by"), "Group by", selected = NULL,
             choices = c(
-                "Tax_division"   = "tax_division2", 
+                "Tax_division"   = "tax_division2",
                 "Sientific_name" = "scientific_name",
                 "Tag1"            = "tag1",
                 "Tag2"            = "tag2",
                 "Tag3"            = "tag3"
             )
-        ), 
+        ),
         hr(),
-        
+
         dateRangeInput(
             NS(id, "range"), "Dates of interest:",
             start = Sys.Date() - months(6), end = Sys.Date(),
             max =  Sys.Date()
         )
-        
-        
+
+
     )
-    
+
 }
 
 datasetServer  <- function(id) {
@@ -64,9 +64,9 @@ datasetServer  <- function(id) {
             tax_division_lookup[[x]]
           }
         })
-        
+
         out$tax_division2 <- as.character(out$tax_division2)
-        
+
 
         # fix tags
         split_tags <- str_split(out$tag, "[:;]", simplify = TRUE)
@@ -85,36 +85,36 @@ datasetServer  <- function(id) {
         out$long <- as.numeric(split_location[, 3])
 
         # out = fread("inst/extdata/data_ena_clean.tsv")
-        
+
         # fix order
-        out = out[order(-first_public)]
-        
+        out = out[order(out$first_public, decreasing = TRUE), ]
+
         return(out)
-        
+
 
     })
 }
 
 filterServer   <- function(id, df) {
-    
+
     moduleServer(id, function(input, output, session) {
-        
+
         filtered <- reactive({
-            
-            df[first_public >= input$range[1] & first_public <= input$range[2]]
-            
+
+            df[df$first_public >= input$range[1] & df$first_public <= input$range[2]]
+
         })
-        
+
     })
-    
+
 }
 
 tableServer    <- function(id, df) {
     moduleServer(id, function(input, output, session) {
-        
-        
+
+
         renderReactable({
-            
+
             reactable(
                 df()[, c(
                   # "accession", "first_public", "country", "region", "altitude",
@@ -137,59 +137,59 @@ tableServer    <- function(id, df) {
                 filterable = input$table_filter |> as.logical(),
                 theme = reactableTheme( backgroundColor  = "#F3F6FA" ),
                 paginationType = "jump",
-                defaultPageSize = 15, 
+                defaultPageSize = 15,
                 showPageSizeOptions = TRUE,
                 pageSizeOptions = c(15, 25, 50, 100),
                 onClick = "select",
                 rowStyle = list(cursor = "pointer")
             )
         })
-        
+
     })
 }
 
 textServer1    <- function(id, df) {
-    
+
      moduleServer(id, function(input, output, session) {
 
          renderText({  df() |> nrow() |> scales::comma() })
-       
+
     })
-    
+
 }
 
 textServer2    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderText({ df()$tax_division2 |> unique() |> length() })
-    
+
   })
 }
 
 textServer3    <- function(id, df) {
     moduleServer(id, function(input, output, session) {
-        
+
         renderText({ df()$scientific_name |> unique() |> length() })
-        
+
     })
 }
 
 textServer4    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderText({ df()$isolation_source |> unique() |> length() })
-    
+
   })
 }
 
 mapServer      <- function(id, df) {
     moduleServer(id, function(input, output, session) {
-        
+
         renderLeaflet({
-            
+
             df_map <- df()[which(!is.na(long) & !is.na(lat))] |>
                       SharedData$new(group = "locations")
-            
+
             leaflet() |>
                 addProviderTiles("CartoDB.Positron") |>
                 setView(23.7275, 38, zoom = 6.5) |>
@@ -197,14 +197,14 @@ mapServer      <- function(id, df) {
                     data = df_map,
                     lng = ~long, lat = ~lat,
                     clusterOptions = markerClusterOptions(),
-                    stroke = TRUE, 
-                    fill = TRUE, 
-                    color = "#033c73", 
+                    stroke = TRUE,
+                    fill = TRUE,
+                    color = "#033c73",
                     fillColor = "#2fa4e7",
                     radius = 5, weight = .5,
-                    opacity = 1, 
+                    opacity = 1,
                     fillOpacity = 1,
-                    
+
                     popup = ~paste0(
                       "<b>Accession:</b> ", "<a href='https://www.ebi.ac.uk/ena/browser/view/", accession, "' target='_blank'>", accession, "</a><br>",
                       "<b>Tax Division:</b> ", tax_division2, "<br>",
@@ -213,11 +213,11 @@ mapServer      <- function(id, df) {
 
                     # popup = ~htmlEscape(
                     #     paste0(tax_division2, ": ", scientific_name)
-                    # 
+                    #
                     # )
                 )
         })
-      
+
     })
 }
 
@@ -258,126 +258,126 @@ hometextUi     <- function(id) {
 
 downloadServer <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     downloadHandler(
           filename = function(){
           paste0("MBG table.csv")
           },
-      
+
       content = function(file){
-        
+
         write.csv(df(), file)
       }
     )
-    
+
   })
 }
- 
+
 plotServer1    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderEcharts4r({
-      
+
       data_p1 <- df()[, c("first_public")]
-      
+
       data_p1$first_public <- ymd(data_p1$first_public)
-      
-      
+
+
       data_p1$year_month <- paste(year(data_p1$first_public), month(data_p1$first_public), sep = "-")
-      
-      
+
+
       # data_p1 <- data_p1 |>
       #   group_by(year_month) |>
       #   summarize(Dates = n())
-      
+
       data_p1 <- data_p1[, by = year_month, .(Dates = .N)]
-      
-      
-      data_p1 |> 
-        e_charts(year_month) |> 
+
+
+      data_p1 |>
+        e_charts(year_month) |>
         #e_line(Dates, color = "#447197", smooth = TRUE) |>
-        e_area(Dates, color = "#447197", smooth = TRUE) |> 
+        e_area(Dates, color = "#447197", smooth = TRUE) |>
         e_x_axis(axisLabel = list(rotate = 45))|>
         e_legend(show = FALSE) |>
         e_tooltip()
-      
-      
+
+
     })
-    
+
   })
 }
 
 plotServer2    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderEcharts4r({
-      
+
       data_plot <- df()[, by = tax_division2, .(Number_of_taxes = .N)]
       data_plot <- data_plot[order(-Number_of_taxes)]
-      
+
       data_plot |>
         e_charts(tax_division2) |>
         e_bar(Number_of_taxes, stack = "grp", color = "#447197" ) |>
         e_x_axis(axisLabel = list(rotate = 45)) |>
         e_legend(show = FALSE) |>
         e_tooltip()
-      
+
     })
-    
+
   })
 }
 
 plotServer3    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderEcharts4r({
-      
+
       # data_plot <- df() |>
       #   group_by(scientific_name) |>
       #   summarize(Number_of_names = n()) |>
       #   arrange(desc(Number_of_names)) |>
       #   filter(Number_of_names > 5)
-      
+
       data_plot <- df()[, by = scientific_name, .(Number_of_names = .N)]
       data_plot <- data_plot[order(-Number_of_names)]
       data_plot <- data_plot[which(Number_of_names > 5)]
-      
+
       data_plot |>
         e_color_range(Number_of_names, color, colors = c("#064467", "#004164")) |>
-        e_charts() |> 
+        e_charts() |>
         e_cloud(scientific_name,
                 Number_of_names,
                 color = color ,
-                shape = "circle", 
+                shape = "circle",
                 rotationRange = c(0, 0),
                 sizeRange = c(9, 28)) |>
         e_tooltip()
-      
-      
+
+
     })
-    
+
   })
 }
 
 plotServer4    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderEcharts4r({
-      
+
       # data_plot <- df() |>
       #   group_by(isolation_source) |>
       #   summarize(Number_of_isolation_source = n())
         #filter(Number_of_isolation_source > 10)
-      
+
       data_plot <- df()[, by = isolation_source, .(Number_of_isolation_source = .N)]
-      
+
       data_plot[1, 1] = "Unknown source"
       #data_plot = data_plot[-1,]
-      
-      
+
+
       data_plot |>
         e_chart(isolation_source) |>
-        e_pie(Number_of_isolation_source, 
+        e_pie(Number_of_isolation_source,
               color = c("#628db5", "#DF8F44", "#B24745", "#79AF97","#725663",
                         "#6A6599", "#0072B5", "#F39B7F", "#919C4C", "#F5C04A"),
               #color = paletteer_d("ggsci::default_jama"),
@@ -393,44 +393,44 @@ plotServer4    <- function(id, df) {
               )
               )|>
         e_legend(show = FALSE) |>
-        e_tooltip() 
-      
+        e_tooltip()
+
     })
-    
+
   })
 }
 
 treeServer     <- function(id, df) {
   moduleServer(id, function(input, output, session) {
-    
+
     renderEcharts4r({
-      
+
       data_tree <- df()[, c("tax_division2", "scientific_name"), with = FALSE] |> unique()
       data_tree <- data_tree |> split(by = "tax_division2") |> lapply(function(q) { data.table(name = q$scientific_name) })
 
       # fwrite(data_tree, "test.csv", row.names = FALSE)
-      
+
       # taxes <- unique(data_tree$tax_division2)
-      
+
       # tree_children <- list()
-      
-      
+
+
       # for (tax in taxes) {
-        
-        
+
+
       #   filtered_data <- data_tree[data_tree$tax_division2 == tax, ]
-        
-        
+
+
       #   values <- unique(filtered_data$scientific_name)
-        
-        
+
+
       #   tax_tibble <- tibble(name = c(values))
-        
-        
+
+
       #   tree_children[[tax]] <- tax_tibble
       # }
-      
-      
+
+
       tree <- data.table(
         name = "Taxonomy",
 
@@ -441,11 +441,11 @@ treeServer     <- function(id, df) {
           )
         )
       )
-      
 
-      
-      tree |> 
-        e_charts() |> 
+
+
+      tree |>
+        e_charts() |>
         e_tree(
                label = list(
                  position = 'right',
@@ -484,13 +484,13 @@ treeServer     <- function(id, df) {
                )
         )
 
-      
-      
-      
+
+
+
      })
-    
+
   })
 }
 
-  
+
 
