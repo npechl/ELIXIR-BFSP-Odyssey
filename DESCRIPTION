@@ -6,6 +6,7 @@ Authors@R:
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Imports: 
+    bslib,
     data.table,
     echarts4r,
     htmltools,

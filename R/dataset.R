@@ -255,8 +255,8 @@ mapServer      <- function(id, df) {
 
         renderLeaflet({
 
-            df_map <- df()[which(!is.na(long) & !is.na(lat))] |>
-                      SharedData$new(group = "locations")
+            df_map <- df()[which(!is.na(long) & !is.na(lat))] # |>
+                      # SharedData$new(group = "locations")
 
             leaflet() |>
                 addProviderTiles("CartoDB.Positron") |>

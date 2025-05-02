@@ -8,6 +8,7 @@ library(shiny)
 #' @export
 #'
 #' @import shiny
+#' @import bslib
 #' @import reactable
 #' @import leaflet
 #' @import echarts4r
