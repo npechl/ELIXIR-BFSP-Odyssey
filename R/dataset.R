@@ -1,10 +1,22 @@
 
+#' Title
+#'
+#' @param id 
+#'
+#' @export
+#'
 sourceInput    <- function(id) {
 
   radioButtons(NS(id, "source_input"), "Input data source", choices = c("ENA"))
 
 }
 
+#' Title
+#'
+#' @param id 
+#'
+#' @export
+#'
 tableOptions   <- function(id) {
 
 
@@ -36,7 +48,14 @@ tableOptions   <- function(id) {
 
 }
 
+#' Title
+#'
+#' @param id 
+#'
+#' @export
+#'
 datasetServer  <- function(id) {
+    
     moduleServer(id, function(input, output, session) {
 
         out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
@@ -95,6 +114,13 @@ datasetServer  <- function(id) {
     })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
+#'
 filterServer   <- function(id, df) {
 
     moduleServer(id, function(input, output, session) {
@@ -109,7 +135,17 @@ filterServer   <- function(id, df) {
 
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
+#'
+#' @importFrom htmltools tags
+#' 
 tableServer    <- function(id, df) {
+    
     moduleServer(id, function(input, output, session) {
 
 
@@ -131,7 +167,7 @@ tableServer    <- function(id, df) {
                     cell = function(value) {
                     # Render as a link
                     url <- sprintf("https://www.ebi.ac.uk/ena/browser/view/%s", value)
-                    htmltools::tags$a(href = url, target = "_blank", as.character(value))
+                    tags$a(href = url, target = "_blank", as.character(value))
                   })),
                 groupBy = input$group_by,
                 filterable = input$table_filter |> as.logical(),
@@ -148,16 +184,30 @@ tableServer    <- function(id, df) {
     })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
+#'
+#' @importFrom scales comma
 textServer1    <- function(id, df) {
-
+    
      moduleServer(id, function(input, output, session) {
 
-         renderText({  df() |> nrow() |> scales::comma() })
+         renderText({  df() |> nrow() |> comma() })
 
     })
 
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
 textServer2    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
 
@@ -166,6 +216,12 @@ textServer2    <- function(id, df) {
   })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
 textServer3    <- function(id, df) {
     moduleServer(id, function(input, output, session) {
 
@@ -174,6 +230,12 @@ textServer3    <- function(id, df) {
     })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
 textServer4    <- function(id, df) {
   moduleServer(id, function(input, output, session) {
 
@@ -182,6 +244,12 @@ textServer4    <- function(id, df) {
   })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
 mapServer      <- function(id, df) {
     moduleServer(id, function(input, output, session) {
 
@@ -256,7 +324,16 @@ hometextUi     <- function(id) {
 
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
+#'
+#' @importFrom utils write.csv
 downloadServer <- function(id, df) {
+    
   moduleServer(id, function(input, output, session) {
 
     downloadHandler(
@@ -273,7 +350,18 @@ downloadServer <- function(id, df) {
   })
 }
 
+#' Title
+#'
+#' @param id 
+#' @param df 
+#'
+#' @export
+#'
+#' @importFrom lubridate ymd
+#' @importFrom lubridate year
+#' @importFrom lubridate month
 plotServer1    <- function(id, df) {
+    
   moduleServer(id, function(input, output, session) {
 
     renderEcharts4r({

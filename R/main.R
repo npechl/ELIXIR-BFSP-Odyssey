@@ -8,9 +8,12 @@ library(shiny)
 #' @export
 #'
 #' @import shiny
+#' @import reactable
+#' @import leaflet
+#' @import echarts4r
 #' @import data.table
 #' @import stringr
-#'
+#' 
 run_odyssey <- function(...) {
 
     ui <- page_sidebar(
