@@ -22,8 +22,8 @@ remotes::install_github("BiodataAnalysisGroup/ELIXIR-BFSP-Odyssey")
 ## Usage
 
 ```r
-# library(odyssey)
-odyssey::run_odyssey()
+# library(Odyssey)
+Odyssey::run_odyssey()
 ```
 
 ## Contributing
