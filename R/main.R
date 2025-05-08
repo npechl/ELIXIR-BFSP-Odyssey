@@ -29,7 +29,7 @@ run_odyssey <- function(...) {
                 style = "position: absolute; top: 0; right: 0; display: flex;
                  align-items: center; height: 100%;",
                 a(
-                    href = "https://github.com/npechl/odyssey",
+                    href = "https://github.com/BiodataAnalysisGroup/ELIXIR-BFSP-Odyssey",
                     icon("github", lib = "font-awesome"),
                     target = "_blank",
                     style = "color: #F3F6FA; margin-top: 5px;
