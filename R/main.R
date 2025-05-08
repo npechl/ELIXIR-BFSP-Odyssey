@@ -78,7 +78,7 @@ run_odyssey <- function(...) {
                 ),
                 p(
                     a(
-                        href = "https://github.com/NatAnastas",
+                        href = "https://github.com/natanast",
                         style = "color: #004164;",
                         "Natasa Anastasiadou ",
                         icon("github", lib = "font-awesome")
