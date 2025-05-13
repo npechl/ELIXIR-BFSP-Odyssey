@@ -9,8 +9,7 @@ Odyssey is an R shiny application for the exploration of Molecular Biodiversity 
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [Authors](#authors)
-- [Related_Publications](#related_publications)
+- [Related publications](#related_publications)
 
 ## Installation
 
@@ -27,9 +26,8 @@ Odyssey::run_odyssey()
 ```
 
 ## Contributing
-Your input is invaluable - whether it's suggesting a new chart/analysis or reporting a bug, we welcome and greatly appreciate your feedback! 
 
-Feel free to open a [GitHub issue](https://github.com/npechl/MBioG/issues) or contact us via `inab.bioinformatics@lists.certh.gr`.
+If you would like to contribute to this pipeline, please see the [Contribution Guidelines](CONTRIBUTING.md).
 
 
 ## License
