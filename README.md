@@ -2,7 +2,6 @@
 
 Odyssey is an R shiny application for the exploration of Molecular Biodiversity in Greece.
 
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -28,7 +27,6 @@ Odyssey::run_odyssey()
 ## Contributing
 
 If you would like to contribute to this pipeline, please see the [Contribution Guidelines](CONTRIBUTING.md).
-
 
 ## License
 This work, as a whole, is licensed under the [MIT license](https://github.com/npechl/MBioG/blob/main/LICENSE).
