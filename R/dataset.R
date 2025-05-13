@@ -17,10 +17,25 @@ sourceInput    <- function(id) {
 #'
 #' @export
 #'
+# sourceInput1   <- function(id) {
+#     
+#     selectInput(NS(id, "source_input1"), "Country of interest: ", choices = c("Greece", "Norway"))
+#     
+# }
+
+#' Title
+#'
+#' @param id 
+#'
+#' @export
+#'
 tableOptions   <- function(id) {
 
 
     tagList(
+        
+        selectInput(NS(id, "source_input1"), "Country of interest: ", choices = c("Greece", "Norway")),
+        hr(),
 
         checkboxInput(NS(id, "table_filter"), "Show filter", FALSE),
         hr(),
@@ -58,8 +73,10 @@ datasetServer  <- function(id) {
     
     moduleServer(id, function(input, output, session) {
 
-        out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
-
+        # out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+        out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22+OR+country=%22Norway%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+        
+        
         # fix tax
         tax_division_lookup <- list(
           "PRO" = "Prokaryota",
@@ -127,7 +144,9 @@ filterServer   <- function(id, df) {
 
         filtered <- reactive({
 
-            df[df$first_public >= input$range[1] & df$first_public <= input$range[2]]
+            df[
+                df$first_public >= input$range[1] & df$first_public <= input$range[2] & df$country == input$source_input1
+            ]
 
         })
 

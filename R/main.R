@@ -59,7 +59,7 @@ run_odyssey <- function(...) {
         sidebar = sidebar(
             sourceInput("source"),
             hr(),
-
+            
             tableOptions("table1"),
             hr(),
 
