@@ -1,6 +1,6 @@
 # Contributing to `Odyssey`
 
-This outlines how to propose a change to `Odyssey`. For more detailed info about contributing to this, and other tidyverse packages, please see the [**development contributing guide**](https://rstd.io/tidy-contrib). 
+This outlines how to propose a change to `Odyssey`. For more detailed info about contributing to this, and other tidyverse packages, please see the [**development contributing guide**](https://rstd.io/tidy-contrib). tsey.
 
 ## Resources
 
