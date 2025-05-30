@@ -21,7 +21,7 @@ If you'd like to write some code for `Odyssey`, the standard workflow is as foll
 1. Check that there isn't already an issue about your idea in the `Odyssey` issues to avoid duplicating work. If there isn't one already, please create one so that others know you're working on this.
 2. Fork the `Odyssey` main repository to your GitHub account
 3. Make the necessary changes / additions within your forked repository.
-4. Submit a Pull Request against the dev?? branch and wait for the code to be reviewed and merged.
+4. Submit a Pull Request against the dev branch and wait for the code to be reviewed and merged.
 
 If you're not used to this workflow with git, you can start with some docs from GitHub or even their excellent git resources.
 
@@ -46,11 +46,12 @@ You can fix typos, spelling mistakes, or grammatical errors in the documentation
 
 ### Pull request process
 
-- Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("batpigandme/tidyverse", fork = TRUE)`.
+- Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("BiodataAnalysisGroup/ELIXIR-BFSP-Odyssey", fork = TRUE)`.
 - Install all development dependences with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
 - Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
-- Make your changes, commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain `Fixes #issue-number`.
-- (NOT IMPLEMENTED YET) For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header). Follow the style described in <https://style.tidyverse.org/news.html>.
+- Make your changes and run `run_odyssey()` in order to see them.
+- Once your ready, commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain `Fixes #issue-number`.
+- For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header). Follow the style described in <https://style.tidyverse.org/news.html>.
 
 ### Code style
 
