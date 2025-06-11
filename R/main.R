@@ -1,9 +1,7 @@
 
-library(shiny)
-
 #' Title
 #'
-#' @param ...
+#' @param ... parameters
 #'
 #' @export
 #'
@@ -267,9 +265,6 @@ run_odyssey <- function(...) {
 
     }
 
-    shinyApp(ui, server)
+    suppressWarnings(shinyApp(ui, server))
 
 }
-
-
-

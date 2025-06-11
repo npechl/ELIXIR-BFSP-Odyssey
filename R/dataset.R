@@ -1,7 +1,7 @@
 
 #' Title
 #'
-#' @param id 
+#' @param id numeric identifier
 #'
 #' @export
 #'
@@ -13,7 +13,7 @@ sourceInput    <- function(id) {
 
 #' Title
 #'
-#' @param id 
+#' @param id numeric identifier
 #'
 #' @export
 #'
@@ -65,7 +65,7 @@ tableOptions   <- function(id) {
 
 #' Title
 #'
-#' @param id 
+#' @param id numeric identifier
 #'
 #' @export
 #'
@@ -133,8 +133,8 @@ datasetServer  <- function(id) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 #'
@@ -156,8 +156,8 @@ filterServer   <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 #'
@@ -205,8 +205,8 @@ tableServer    <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 #'
@@ -223,8 +223,8 @@ textServer1    <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 textServer2    <- function(id, df) {
@@ -237,8 +237,8 @@ textServer2    <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 textServer3    <- function(id, df) {
@@ -251,8 +251,8 @@ textServer3    <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 textServer4    <- function(id, df) {
@@ -265,8 +265,8 @@ textServer4    <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 mapServer      <- function(id, df) {
@@ -345,8 +345,8 @@ hometextUi     <- function(id) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 #'
@@ -371,8 +371,8 @@ downloadServer <- function(id, df) {
 
 #' Title
 #'
-#' @param id 
-#' @param df 
+#' @param id numeric identifier
+#' @param df data table
 #'
 #' @export
 #'
