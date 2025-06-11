@@ -11,7 +11,6 @@ Imports:
     echarts4r,
     htmltools,
     leaflet,
-    lubridate,
     reactable,
     scales,
     shiny,
