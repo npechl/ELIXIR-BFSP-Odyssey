@@ -28,7 +28,6 @@ sourceInput    <- function(id) {
         
         dateRangeInput(
             NS(id, "range"), "Dates of interest:",
-            # start = Sys.Date() - months(1),
             start = Sys.Date() - 364, # changed to 12 months
             end = Sys.Date() - 330, # changed
             max =  Sys.Date()
