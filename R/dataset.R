@@ -1,4 +1,8 @@
 
+european_countries <- c(
+    "Greece", "Norway"
+)
+
 #' Title
 #'
 #' @param id numeric identifier
@@ -7,9 +11,82 @@
 #'
 sourceInput    <- function(id) {
     
-    radioButtons(NS(id, "source_input"), "Input data source", choices = c("ENA"))
+    tagList(
+        
+        radioButtons(
+            NS(id, "source_input"), 
+            "Input data source", 
+            choices = c("ENA", "GBIF")
+        ),
+        
+        selectInput(
+            NS(id, "country"),
+            "Country of interest: ",
+            choices = c(european_countries),
+            selected = "Greece"
+        ),
+        
+        dateRangeInput(
+            NS(id, "range"), "Dates of interest:",
+            # start = Sys.Date() - months(1),
+            start = Sys.Date() - 364, # changed to 12 months
+            end = Sys.Date() - 330, # changed
+            max =  Sys.Date()
+        ),
+        
+        actionButton(
+            NS(id, "go"),
+            "Load Data"
+        ),
+        hr(),
+        
+        
+    )
+    
     
 }
+
+
+#' Title
+#'
+#' @param id numeric identifier
+#'
+#' @export
+#'
+mod_data_server <- function(id) {
+    moduleServer(id, function(input, output, session) {
+        
+        fetch_data <- eventReactive(input$go, {
+            req(input$range)
+            
+            base_url <- "https://www.ebi.ac.uk/ena/portal/api/search"
+            fields <- paste0("accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+            
+            # Build country query
+            if (input$country == "All Europe") {
+                country_query <- paste0('country="', european_countries, '"', collapse = "+OR+")
+            } else {
+                country_query <- paste0('country="', input$country, '"')
+            }
+            
+            # Build date query
+            date_query <- paste0(
+                'first_public>="', input$range[1], 
+                '" AND first_public<="', input$range[2], '"'
+            )
+            
+            full_query <- paste0(country_query, "+AND+", date_query)
+            full_url <- paste0(base_url, "?result=sequence&fields=", fields, "&query=", URLencode(full_query))
+            
+            out <- fread(full_url)
+            
+        })
+        
+        return(fetch_data)
+    })
+}
+
+
 
 #' Title
 #'
@@ -35,106 +112,154 @@ tableOptions   <- function(id) {
                 "Tag3"            = "tag3"
             )
         ),
-        hr(),
-
-        dateRangeInput(
-            NS(id, "range"), "Dates of interest:",
-            start = Sys.Date() - 180, # changed to 12 months
-            end = Sys.Date(), # changed
-            max =  Sys.Date()
-        )
         
-        
+        hr()
     )
     
+    
 }
 
 #' Title
 #'
 #' @param id numeric identifier
+#' @param df A reactive expression returning a data.frame containing the dataset.
 #'
 #' @export
 #'
-datasetServer  <- function(id) {
-    
-    moduleServer(id, function(input, output, session) {
-        
-        out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
-        
-        # fix tax
-        tax_division_lookup <- list(
-            "PRO" = "Prokaryota",
-            "VRL" = "Virus",
-            "MAM" = "Mammalia",
-            "INV" = "Invertebrates",
-            "VRT" = "Vertebrates",
-            "PLN" = "Plantae",
-            "FUN" = "Fungi",
-            "HUM" = "Homo sapiens",
-            "ENV" = "Environment",
-            "ROD" = "Rodentia",
-            "MUS" = "Mus",
-            "PHG" = "Phage"
-        )
-        
-        out$tax_division2 <- sapply(out$tax_division, function(x) {
-            if (x == "") {
-                "Unknown"
-            } else {
-                tax_division_lookup[[x]]
-            }
-        })
-        
-        out$tax_division2 <- as.character(out$tax_division2)
-        
-        
-        # fix tags
-        split_tags <- str_split(out$tag, "[:;]", simplify = TRUE)
-        
-        out$tag1 <- split_tags[, 1]
-        out$tag2 <- split_tags[, 2]
-        out$tag3 <- split_tags[, 3]
-        out$tag4 <- split_tags[, 4]
-        out$tag5 <- split_tags[, 5]
-        
-        
-        # lat long
-        split_location <- str_match(out$location, "([0-9.]+) N ([0-9.]+) E")
-        
-        out$lat <- as.numeric(split_location[, 2])
-        out$long <- as.numeric(split_location[, 3])
-        
-        # out = fread("inst/extdata/data_ena_clean.tsv")
-        
-        # fix order
-        out = out[order(out$first_public, decreasing = TRUE), ]
-        
-        return(out)
-        
-        
-    })
-}
-
-#' Title
-#'
-#' @param id numeric identifier
-#' @param df data table
-#'
-#' @export
-#'
-filterServer   <- function(id, df) {
-    
+datasetServer <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
         filtered <- reactive({
+            data <- df()
             
-            df[df$first_public >= input$range[1] & df$first_public <= input$range[2]]
+            # Fix tax
+            tax_division_lookup <- list(
+                "PRO" = "Prokaryota",
+                "VRL" = "Virus",
+                "MAM" = "Mammalia",
+                "INV" = "Invertebrates",
+                "VRT" = "Vertebrates",
+                "PLN" = "Plantae",
+                "FUN" = "Fungi",
+                "HUM" = "Homo sapiens",
+                "ENV" = "Environment",
+                "ROD" = "Rodentia",
+                "MUS" = "Mus",
+                "PHG" = "Phage"
+            )
             
+            data$tax_division2 <- sapply(data$tax_division, function(x) {
+                if (x == "") "Unknown" else tax_division_lookup[[x]]
+            })
+            
+            data$tax_division2 <- as.character(data$tax_division2)
+            
+            # Fix tags
+            split_tags <- str_split(data$tag, "[:;]", simplify = TRUE)
+            data$tag1 <- split_tags[, 1]
+            data$tag2 <- split_tags[, 2]
+            data$tag3 <- split_tags[, 3]
+            data$tag4 <- split_tags[, 4]
+            data$tag5 <- split_tags[, 5]
+            
+            # Lat/long
+            split_location <- str_match(data$location, "([0-9.]+) N ([0-9.]+) E")
+            data$lat <- as.numeric(split_location[, 2])
+            data$long <- as.numeric(split_location[, 3])
+            
+            # Order
+            data <- data[order(data$first_public, decreasing = TRUE), ]
+            
+            data
         })
         
+        return(filtered)
     })
-    
 }
+
+# datasetServer  <- function(id, df) {
+# 
+#     moduleServer(id, function(input, output, session) {
+# 
+#         # out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+#         # out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&query=country=%22Greece%22+OR+country=%22Norway%22&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+#         # out = fread("https://www.ebi.ac.uk/ena/portal/api/search?result=sequence&fields=accession,country,first_public,altitude,location,isolation_source,host,host_tax_id,tax_division,tax_id,scientific_name,tag,keywords,topology")
+# 
+#         filtered <- reactive({
+# 
+#         # fix tax
+#         tax_division_lookup <- list(
+#                 "PRO" = "Prokaryota",
+#                 "VRL" = "Virus",
+#                 "MAM" = "Mammalia",
+#                 "INV" = "Invertebrates",
+#                 "VRT" = "Vertebrates",
+#                 "PLN" = "Plantae",
+#                 "FUN" = "Fungi",
+#                 "HUM" = "Homo sapiens",
+#                 "ENV" = "Environment",
+#                 "ROD" = "Rodentia",
+#                 "MUS" = "Mus",
+#                 "PHG" = "Phage"
+#             )
+# 
+#             df()$tax_division2 <- sapply(df()$tax_division, function(x) {
+#                 if (x == "") {
+#                     "Unknown"
+#                 } else {
+#                     tax_division_lookup[[x]]
+#                 }
+#             })
+# 
+#             df()$tax_division2 <- as.character(df()$tax_division2)
+# 
+# 
+#             # fix tags
+#             split_tags <- str_split(df()$tag, "[:;]", simplify = TRUE)
+# 
+#             df()$tag1 <- split_tags[, 1]
+#             df()$tag2 <- split_tags[, 2]
+#             df()$tag3 <- split_tags[, 3]
+#             df()$tag4 <- split_tags[, 4]
+#             df()$tag5 <- split_tags[, 5]
+# 
+# 
+#             # lat long
+#             split_location <- str_match(df()$location, "([0-9.]+) N ([0-9.]+) E")
+# 
+#             df()$lat <- as.numeric(split_location[, 2])
+#             df()$long <- as.numeric(split_location[, 3])
+# 
+# 
+#             # fix order
+#             df() = df()[order(df()$first_public, decreasing = TRUE), ]
+#             })
+# 
+#             return(filtered)
+# 
+#     })
+# }
+
+
+# filterServer   <- function(id, df) {
+# 
+#     moduleServer(id, function(input, output, session) {
+# 
+#         filtered <- reactive({
+# 
+#             df[
+#                 df$first_public >= input$range[1] &
+#                 df$first_public <= input$range[2] &
+#                 df$country == input$country
+#             ]
+# 
+#         })
+# 
+#     })
+# 
+#     # return(filtered)
+# 
+# }
 
 #' Title
 #'
@@ -153,7 +278,8 @@ tableServer    <- function(id, df) {
         renderReactable({
             
             reactable(
-                df()[, c(
+                df()
+                [, c(
                     # "accession", "first_public", "country", "region", "altitude",
                     # "host", "host_tax_id", "isolation_source",  "scientific_name",
                     # "tax_id", "topology", "tax_division2", "tag1", "tag2", "tag3",
@@ -251,6 +377,7 @@ textServer4    <- function(id, df) {
 #' @param df data table
 #'
 #' @export
+#' @importFrom utils URLencode
 mapServer      <- function(id, df) {
     moduleServer(id, function(input, output, session) {
         
@@ -290,6 +417,13 @@ mapServer      <- function(id, df) {
     })
 }
 
+
+#' Title
+#'
+#' @param id numeric identifier
+#'
+#' @export
+#' @importFrom utils URLencode
 hometextUi     <- function(id) {
     moduleServer(id, function(input, output, session) {
         
