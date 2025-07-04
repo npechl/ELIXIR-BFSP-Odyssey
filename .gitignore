@@ -50,6 +50,5 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-/.quarto/
 .Rproj.user
 docs
